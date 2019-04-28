@@ -5,8 +5,8 @@
     <description>Actually, less is more!</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 29 Apr 2019 02:35:19 +0900</pubDate>
-    <lastBuildDate>Mon, 29 Apr 2019 02:35:19 +0900</lastBuildDate>
+    <pubDate>Mon, 29 Apr 2019 03:19:58 +0900</pubDate>
+    <lastBuildDate>Mon, 29 Apr 2019 03:19:58 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -42,7 +42,7 @@
         <link>http://localhost:4000/2017/07/24/abandon-the-comment-feature/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/07/24/abandon-the-comment-feature/</guid>
         
-        <category>教程</category>
+        <category>태그1</category>
         
         
         <category>document</category>
@@ -115,10 +115,10 @@
         <link>http://localhost:4000/2017/06/08/change-the-comment-provider-to-yuntentie/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/06/08/change-the-comment-provider-to-yuntentie/</guid>
         
-        <category>教程</category>
+        <category>태그2</category>
         
         
-        <category>document</category>
+        <category>hyhy</category>
         
       </item>
     
@@ -228,7 +228,7 @@ tag: 教程
         <link>http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</link>
         <guid isPermaLink="true">http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</guid>
         
-        <category>教程</category>
+        <category>최고</category>
         
         
         <category>document</category>
@@ -277,10 +277,10 @@ tag: 教程
         <link>http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</link>
         <guid isPermaLink="true">http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</guid>
         
-        <category>interview</category>
+        <category>인터뷰</category>
         
         
-        <category>翻译文章</category>
+        <category>선견지명</category>
         
       </item>
     
