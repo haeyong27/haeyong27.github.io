@@ -3,7 +3,7 @@ layout: post
 title:  "Welcome to Jekyll!"
 date:   2019-4-22 13:31:01 +0800
 categories: daily
-tag: daily
+tag: debug
 ---
 
 첫 글
