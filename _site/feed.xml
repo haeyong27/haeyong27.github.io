@@ -5,8 +5,8 @@
     <description>Actually, less is more!</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 10 May 2019 21:40:07 +0900</pubDate>
-    <lastBuildDate>Fri, 10 May 2019 21:40:07 +0900</lastBuildDate>
+    <pubDate>Fri, 10 May 2019 22:28:29 +0900</pubDate>
+    <lastBuildDate>Fri, 10 May 2019 22:28:29 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -23,6 +23,24 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
         <pubDate>Fri, 10 May 2019 16:42:00 +0900</pubDate>
         <link>http://localhost:4000/2019/05/10/rest/</link>
         <guid isPermaLink="true">http://localhost:4000/2019/05/10/rest/</guid>
+        
+        <category>backend</category>
+        
+        
+        <category>web</category>
+        
+      </item>
+    
+      <item>
+        <title>iterm2 setting</title>
+        <description>&lt;p&gt;youtube : &lt;a href=&quot;https://www.youtube.com/watch?v=pTW02GMeI74&quot;&gt;Customizing iterm2 with ZSH and PowerLevel9k&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;유튜브 링크 걸면 이미지까지 같이 보여주는거
+사진넣기&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 May 2019 16:42:00 +0900</pubDate>
+        <link>http://localhost:4000/2019/05/10/iterm2/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/05/10/iterm2/</guid>
         
         <category>backend</category>
         
@@ -49,6 +67,61 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
       </item>
     
       <item>
+        <title>django start</title>
+        <description>&lt;h2 id=&quot;개요&quot;&gt;개요&lt;/h2&gt;
+&lt;p&gt;웹 서비스, 앱 서버, 챗봇 서비스 
+웹 서비스를 만들 때 마다 반복되는것들을 표준화 해서 묶어놓은것 
+모든 언어 마다 웹 프레임워크가 존재한다.&lt;/p&gt;
+
+&lt;p&gt;django는 백엔드 개발에 필요한 거의 모든 기능을 제공한다&lt;/p&gt;
+
+&lt;h3 id=&quot;django의-강점&quot;&gt;django의 강점&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;python 생태계&lt;/li&gt;
+  &lt;li&gt;풀스탤 웹 프레임워크&lt;/li&gt;
+  &lt;li&gt;10년동안 성숙&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;웹-서비스-개발-파트&quot;&gt;웹 서비스 개발 파트&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;백엔드 개발&lt;/li&gt;
+  &lt;li&gt;서버운영&lt;/li&gt;
+  &lt;li&gt;프론트엔드 개발&lt;/li&gt;
+  &lt;li&gt;앱 개발&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;환경세팅&quot;&gt;환경세팅&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.anaconda.com/anaconda/user-guide/faq/&quot;&gt;아나콘다 설치 팁&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;To see if the conda installation of Python is in your PATH variable:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;On macOS and Linux, open the terminal and run—&lt;code class=&quot;highlighter-rouge&quot;&gt;echo $PATH&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;On Windows, open an Anaconda Prompt and run—&lt;code class=&quot;highlighter-rouge&quot;&gt;echo %PATH%&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To see which Python installation is currently set as the default:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;On macOS and Linux, open the terminal and run—&lt;code class=&quot;highlighter-rouge&quot;&gt;which python&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;On Windows, open an Anaconda Prompt and run—&lt;code class=&quot;highlighter-rouge&quot;&gt;where python&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To see which packages are installed in your current conda environment and their version numbers, in your terminal window or an Anaconda Prompt, run &lt;code class=&quot;highlighter-rouge&quot;&gt;conda list&lt;/code&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 09 May 2019 14:31:01 +0900</pubDate>
+        <link>http://localhost:4000/2019/05/09/django_start/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/05/09/django_start/</guid>
+        
+        <category>django</category>
+        
+        
+        <category>django</category>
+        
+      </item>
+    
+      <item>
         <title>platform</title>
         <description>&lt;p&gt;브런치&lt;br /&gt;
 &lt;a href=&quot;https://brunch.co.kr/@rainpour/3&quot;&gt;스타트업에 대하여&lt;/a&gt;&lt;/p&gt;
@@ -66,19 +139,10 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
       </item>
     
       <item>
-        <title>Welcome to Jekyll!</title>
+        <title>첫 포스트</title>
         <description>&lt;p&gt;첫 글&lt;/p&gt;
-&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#zhugeliang&quot; id=&quot;markdown-toc-zhugeliang&quot;&gt;诫子书&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 
 &lt;p&gt;First POST build by Jekyll.&lt;/p&gt;
-
-&lt;h2 id=&quot;zhugeliang&quot;&gt;诫子书&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/styles/images/jiezishu.jpg&quot; alt=&quot;诫子书&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;#&quot;&gt;诸葛亮&lt;/a&gt;&lt;/p&gt;
 
 </description>
         <pubDate>Mon, 22 Apr 2019 14:31:01 +0900</pubDate>
