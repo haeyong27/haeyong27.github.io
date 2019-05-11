@@ -18,8 +18,8 @@ settings.TEMPLATES 설정 리스트
 프로젝트 전반적으로 사용할 템플릿은 DIRS에 명시한 경로에 배치  
 
 ## 장고 템플릿 태그/필터
-Django Template Tag ```{% 태그명 '인자1' '인자2' %}```와 같은 형식으로 호출
-Django Template Filter ```{{ 값|필터1:인자|필터2:인자|필터3}}```   
+Django Template Tag ```\{% 태그명 '인자1' '인자2' %}```와 같은 형식으로 호출
+Django Template Filter ```{{ 값|필터1:인자|필터2:인자|필터3 }}```   
 
 for/endfor, if/endif, include, load, verbatim등 다양한 빌트인 탬플릿 태그/필터가 제공된다.
 
