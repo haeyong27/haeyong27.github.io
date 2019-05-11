@@ -97,3 +97,20 @@ Chaining을 지원한다.
 post = Post.objects 모델메니저
 post.create(field1=valeu1, field2=value2)
 **{dict} 형태로 unpack하여 인자를 전달할 수 있다.
+
+
+## Django Form
+Model 클래스와 유사하다
+- 입력폼 HTML 생성
+- 입력폼 값 검증(Validation)
+- 검증을 통과한 값들을 사전타입으로 제공
+
+### Form처리
+폼 처리 시에 같은 URL에서 GET/POST로 나눠 처리한다
+- GET
+입력폼을 보여준다
+- POST
+데이터를 입력받아 유효성 검증과정을 거친다.
+성공시 : 데이터를 저장하고 SUCCESS URL로 이동
+실패시 : 오류메세지와 입력폼을 다시 보여줌
+

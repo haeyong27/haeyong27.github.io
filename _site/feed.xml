@@ -5,9 +5,48 @@
     <description>Actually, less is more!</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 11 May 2019 05:03:34 +0900</pubDate>
-    <lastBuildDate>Sat, 11 May 2019 05:03:34 +0900</lastBuildDate>
+    <pubDate>Sat, 11 May 2019 23:20:53 +0900</pubDate>
+    <lastBuildDate>Sat, 11 May 2019 23:20:53 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>다양한 구동환경을 위한 settings / requirements.txt 분기</title>
+        <description>&lt;p&gt;실행환경 별로 필요한 라이브러리가 다를 수 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;공통&lt;/li&gt;
+  &lt;li&gt;개발용&lt;/li&gt;
+  &lt;li&gt;배포용(AWS)&lt;/li&gt;
+  &lt;li&gt;배포용(Heroku)&lt;/li&gt;
+  &lt;li&gt;서비스 2.0 개발용&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;settings란&quot;&gt;settings란?&lt;/h2&gt;
+&lt;p&gt;다양한 프로젝트 설정을 담는 파이썬 소스파일&lt;br /&gt;
+장고 앱, DB 설정, 캐시 설정&lt;br /&gt;
+디폴트는 (django/conf/global_settings.py)를 기본으로 하고, 지정 settings를 통해 필요한 설정을 재정의한다.&lt;/p&gt;
+
+&lt;p&gt;os.environ.setdefualt(key, default=None)&lt;br /&gt;
+os.environ는 dict과 유사한 인터페이스이다.&lt;br /&gt;
+dict.setdefault(key, default=None)&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;if 'DJANGO_SETTINGS_MODULE' not in os.environs:
+    os.environs['DJANGO_SETTINGS_MODULE']='askcompnay.settings'
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;manage.py, wsgi.py에 있다.&lt;/p&gt;
+
+&lt;p&gt;이또한 settings폴더를 만들고, __init__.py를 집어넣은다음, prod.py, common.py 등을 만들어서 사용할 수 있다. 주의할점은 manage.py에 os.environ.setdefualt값을 잘 정해줘야 오류없이 실행시킬 수 있다.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 11 May 2019 14:31:01 +0900</pubDate>
+        <link>http://localhost:4000/2019/05/11/django_settings/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/05/11/django_settings/</guid>
+        
+        <category>setting</category>
+        
+        
+        <category>django</category>
+        
+      </item>
     
       <item>
         <title>REST API</title>
@@ -151,6 +190,58 @@ runserver –noreload –nothreading&lt;/p&gt;
   &lt;li&gt;__init__.py 내에서는 from .item import * 와 같이 임포트하게되면, 모델 외부에
 서는 (1안)과 동일하게 사용할 수 있습니다.&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h2 id=&quot;장고쉘&quot;&gt;장고쉘&lt;/h2&gt;
+&lt;p&gt;python manage.py shell&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pip install django-extensions&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;장고-모델-orm&quot;&gt;장고 모델 (ORM)&lt;/h2&gt;
+&lt;p&gt;object relational mapping
+데이터 베이스 :RDBMS, NoSQL
+파일 : 로컬, 외부 정적 스토리지
+캐시서버 : memcached, redis&lt;/p&gt;
+
+&lt;p&gt;모델명과 DB 테이블 명
+DB 테이블명 : 디폴트 “앱이름_모델명”
+예&lt;br /&gt;
+blog 앱 
+Post 모델 -&amp;gt; ‘blog_post’
+Comment 모델 -&amp;gt; ‘blog_comment’&lt;/p&gt;
+
+&lt;h2 id=&quot;모델을-통한-데이터-조회&quot;&gt;모델을 통한 데이터 조회&lt;/h2&gt;
+&lt;p&gt;ModelCls.objects.all() -&amp;gt; QuerySet 
+순회가능한 객체이다. 
+Chaining을 지원한다.
+• QueyrSet은 Lazy한 특성
+• QuerySet을 만드는 동안에는 DB접근을 하지 않습니다.
+• 실제로 데이터가 필요한 시점에 접근을 합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;모델을-통한-데이터-생성수정삭제&quot;&gt;모델을 통한 데이터 생성/수정/삭제&lt;/h2&gt;
+
+&lt;p&gt;post = Post.objects 모델메니저
+post.create(field1=valeu1, field2=value2)
+**{dict} 형태로 unpack하여 인자를 전달할 수 있다.&lt;/p&gt;
+
+&lt;h2 id=&quot;django-form&quot;&gt;Django Form&lt;/h2&gt;
+&lt;p&gt;Model 클래스와 유사하다&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;입력폼 HTML 생성&lt;/li&gt;
+  &lt;li&gt;입력폼 값 검증(Validation)&lt;/li&gt;
+  &lt;li&gt;검증을 통과한 값들을 사전타입으로 제공&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;form처리&quot;&gt;Form처리&lt;/h3&gt;
+&lt;p&gt;폼 처리 시에 같은 URL에서 GET/POST로 나눠 처리한다&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;GET
+입력폼을 보여준다&lt;/li&gt;
+  &lt;li&gt;POST
+데이터를 입력받아 유효성 검증과정을 거친다.
+성공시 : 데이터를 저장하고 SUCCESS URL로 이동
+실패시 : 오류메세지와 입력폼을 다시 보여줌&lt;/li&gt;
+&lt;/ul&gt;
+
 </description>
         <pubDate>Thu, 09 May 2019 14:31:01 +0900</pubDate>
         <link>http://localhost:4000/2019/05/09/django_start/</link>

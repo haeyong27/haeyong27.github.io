@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>分类 - Less Or More</title>
+	<title>다양한 구동환경을 위한 settings / requirements.txt 분기 - Less Or More</title>
 
 	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
 	<link rel="icon" href="/styles/images/favicon.jpg">
@@ -13,10 +13,10 @@
 	<link rel="stylesheet" href="/styles/css/index.css">
 	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/styles/css/syntax.css">
-	<link rel="canonical" href="/categories/">
+	<link rel="canonical" href="/2019/05/11/django_settings/">
 	<link rel="alternate" type="application/rss+xml" title="Less Or More" href="/feed.xml">
 	
-	<meta name="keywords" content="分类, Less Or More, meta description">
+	<meta name="keywords" content="다양한 구동환경을 위한 settings / requirements.txt 분기, Less Or More, meta description">
 	<meta name="description" content="meta description">
 
 	<script src="/styles/js/jquery.min.js"></script>
@@ -90,8 +90,8 @@
   <div class="container">
   	
   		<!--
-		    <h1>分类</h1>
-		    <p>Post on  by <a href="/about">Haeyong Hwang</a></p>
+		    <h1>다양한 구동환경을 위한 settings / requirements.txt 분기</h1>
+		    <p>Post on May 11, 2019 by <a href="/about">Haeyong Hwang</a></p>
 		-->
 		    <h1>It's our wits that make us men.</h1>
     
@@ -102,7 +102,8 @@
 <div class="banner">
   <div class="container">
   	
-    	banner
+    	<a href="/categories/#django-ref">django</a>	/
+    	<a href="/tag/#setting-ref">setting</a>
     
   </div>
 </div>
@@ -114,146 +115,57 @@
     <div class="col-md-3">
       <div class="sidebar hidden-print" role="complementary">
         <div id="navigation">
-        	<h1>目录</h1>
-      		<ul class="nav sidenav">
-				
-			    	 
-				    	<li><a href="#daily-ref">
-				    		daily <span style="color: #999999;" >(1)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#etc-ref">
-				    		etc <span style="color: #999999;" >(2)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#django-ref">
-				    		django <span style="color: #999999;" >(3)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#web-ref">
-				    		web <span style="color: #999999;" >(1)</span>
-				    	</a></li>
-			    	
-			  	
-          	</ul>
-        </div>
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"> 
+    </script>
+  </div>
+</div>
+
+ 
       </div>
     </div>
     <div class="col-md-9" role="main">
       <div class="panel docs-content">
         <div class="wrapper">
-          <div class="home">
-			 
-			  <h2 id="daily-ref">daily</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/04/22/welcome-to-jekyll/">첫 포스트</a></li>
-    		<li style="float:right;"><span>2019-04-22</span></li>
-    	</ol>
-    	
-    
-  
+            <header class="post-header">
+              <h1 class="post-title">다양한 구동환경을 위한 settings / requirements.txt 분기</h1>
+              <!--
+                <p class="post-meta">May 11, 2019</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">May 11, 2019</span> By <a target="_blank" href="http://localhost:4000">Haeyong Hwang</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <p>실행환경 별로 필요한 라이브러리가 다를 수 있다.</p>
 
+<ul>
+  <li>공통</li>
+  <li>개발용</li>
+  <li>배포용(AWS)</li>
+  <li>배포용(Heroku)</li>
+  <li>서비스 2.0 개발용</li>
+</ul>
 
+<h2 id="settings란">settings란?</h2>
+<p>다양한 프로젝트 설정을 담는 파이썬 소스파일<br />
+장고 앱, DB 설정, 캐시 설정<br />
+디폴트는 (django/conf/global_settings.py)를 기본으로 하고, 지정 settings를 통해 필요한 설정을 재정의한다.</p>
 
-			  </ul>
-			 
-			  <h2 id="etc-ref">etc</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/10/iterm2/">iterm2 setting</a></li>
-    		<li style="float:right;"><span>2019-05-10</span></li>
-    	</ol>
-    	
-    
-  
+<p>os.environ.setdefualt(key, default=None)<br />
+os.environ는 dict과 유사한 인터페이스이다.<br />
+dict.setdefault(key, default=None)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if 'DJANGO_SETTINGS_MODULE' not in os.environs:
+    os.environs['DJANGO_SETTINGS_MODULE']='askcompnay.settings'
+</code></pre></div></div>
 
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/08/youtubeapi/">platform</a></li>
-    		<li style="float:right;"><span>2019-05-08</span></li>
-    	</ol>
-    	
-    
-  
+<p>manage.py, wsgi.py에 있다.</p>
 
+<p>이또한 settings폴더를 만들고, __init__.py를 집어넣은다음, prod.py, common.py 등을 만들어서 사용할 수 있다. 주의할점은 manage.py에 os.environ.setdefualt값을 잘 정해줘야 오류없이 실행시킬 수 있다.</p>
 
-
-			  </ul>
-			 
-			  <h2 id="django-ref">django</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/11/django_settings/">다양한 구동환경을 위한 settings / requirements.txt 분기</a></li>
-    		<li style="float:right;"><span>2019-05-11</span></li>
-    	</ol>
-    	
-    
-  
-
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/10/debug/">VSCode 장고 디버깅 세팅하기</a></li>
-    		<li style="float:right;"><span>2019-05-10</span></li>
-    	</ol>
-    	
-    
-  
-
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/09/django_start/">django start</a></li>
-    		<li style="float:right;"><span>2019-05-09</span></li>
-    	</ol>
-    	
-    
-  
-
-
-
-			  </ul>
-			 
-			  <h2 id="web-ref">web</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2019/05/10/rest/">REST API</a></li>
-    		<li style="float:right;"><span>2019-05-10</span></li>
-    	</ol>
-    	
-    
-  
-
-
-
-			  </ul>
-			
-          </div>
+            </article>
         </div>
       </div>
     </div>
