@@ -5,9 +5,63 @@
     <description>Actually, less is more!</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 11 May 2019 23:20:53 +0900</pubDate>
-    <lastBuildDate>Sat, 11 May 2019 23:20:53 +0900</lastBuildDate>
+    <pubDate>Sun, 12 May 2019 03:10:45 +0900</pubDate>
+    <lastBuildDate>Sun, 12 May 2019 03:10:45 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Django templates</title>
+        <description>&lt;p&gt;템플릿 기능에 제한을 둠으로서, 비즈니스 로직을 템플릿 단에 구현함을 방지.
+비즈니스 로직은 model에, form/modelform을 통한 유효성 검사 및 저장을 권장&lt;/p&gt;
+
+&lt;p&gt;settings.TEMPLATES 설정 리스트&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;backend : 템플릿 엔진 지정&lt;/li&gt;
+  &lt;li&gt;dirs : 경로리스트 (filesystem loader)&lt;/li&gt;
+  &lt;li&gt;app_dirs : 앱별 templates 경로 추가 여부&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;각 앱들을 위한 템플릿은 ‘앱/templates/’경로에 배치&lt;br /&gt;
+프로젝트 전반적으로 사용할 템플릿은 DIRS에 명시한 경로에 배치&lt;/p&gt;
+
+&lt;h2 id=&quot;장고-템플릿-태그필터&quot;&gt;장고 템플릿 태그/필터&lt;/h2&gt;
+&lt;p&gt;Django Template Tag &lt;code class=&quot;highlighter-rouge&quot;&gt;{ % 태그명 '인자1' '인자2' %}&lt;/code&gt;와 같은 형식으로 호출&lt;br /&gt;
+Django Template Filter &lt;code class=&quot;highlighter-rouge&quot;&gt;{ { 값|필터1:인자|필터2:인자|필터3 }}&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;for/endfor, if/endif, include, load, verbatim등 다양한 빌트인 탬플릿 태그/필터가 제공된다.&lt;/p&gt;
+
+&lt;h2 id=&quot;장고가-템플릿-파일을-찾는-원리loader&quot;&gt;장고가 템플릿 파일을 찾는 원리(loader)&lt;/h2&gt;
+&lt;h3 id=&quot;왜-템플릿-파일은-앱이름templates앱이름post_listhtml과-같은-구조를-가져야만-하는-지&quot;&gt;왜 템플릿 파일은 앱이름/templates/앱이름/post_list.html과 같은 구조를 가져야만 하는 지&lt;/h3&gt;
+&lt;p&gt;다양한 템플릿 로더가 있다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;파일 시스템 로더&lt;/li&gt;
+  &lt;li&gt;앱 디렉토리 로더&lt;/li&gt;
+  &lt;li&gt;cached 로더&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;템플릿 로더에게 템플릿을 찾아달라고 요청을 하게된다. 그 대표적인 예로 render라는 함수가 있다. 
+ex) &lt;code class=&quot;highlighter-rouge&quot;&gt;render(request, 'blog/post_list.html')&lt;/code&gt;
+여기서 ‘blog/post_list.html’ 이 부분을 가지고 템플릿을 찾게되는데 먼저 파일 시스템로더, 두번째로 앱 디렉토리 로더를 찾는다.&lt;/p&gt;
+
+&lt;p&gt;settings.TEMPLATES 의 DIRS = [] 설정에 의존한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;템플릿-상속을-통한-중복-제거&quot;&gt;템플릿 상속을 통한 중복 제거&lt;/h2&gt;
+&lt;p&gt;각 뷰에 연결된 템플릿은 독립적으로 동작한다.&lt;/p&gt;
+
+&lt;h4 id=&quot;기본특징&quot;&gt;기본특징&lt;/h4&gt;
+&lt;p&gt;상속은 여러단계로 이뤄질 수 있고, block에는 이름을 할당해야하며, 이름을 통해 구분한다. 그렇기 때문에 유일해야한다.&lt;br /&gt;
+부모템플릿은 자식 템플릿이 비집고 들어올 수 있는 다수의 영역(block)을 정의할 수 있다.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 11 May 2019 14:31:01 +0900</pubDate>
+        <link>http://localhost:4000/2019/05/11/django_template/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/05/11/django_template/</guid>
+        
+        <category>django</category>
+        
+        
+        <category>backend</category>
+        
+      </item>
     
       <item>
         <title>다양한 구동환경을 위한 settings / requirements.txt 분기</title>
@@ -35,7 +89,7 @@ dict.setdefault(key, default=None)&lt;/p&gt;
 
 &lt;p&gt;manage.py, wsgi.py에 있다.&lt;/p&gt;
 
-&lt;p&gt;이또한 settings폴더를 만들고, __init__.py를 집어넣은다음, prod.py, common.py 등을 만들어서 사용할 수 있다. 주의할점은 manage.py에 os.environ.setdefualt값을 잘 정해줘야 오류없이 실행시킬 수 있다.&lt;/p&gt;
+&lt;p&gt;이또한 settings폴더를 만들고, __init__.py를 집어넣은다음, prod.py, common.py 등을 만들어서 사용할 수 있다. 주의할점은 manage.py, wsgi.py에 os.environ.setdefualt값을 잘 정해줘야 오류없이 실행시킬 수 있다.&lt;/p&gt;
 </description>
         <pubDate>Sat, 11 May 2019 14:31:01 +0900</pubDate>
         <link>http://localhost:4000/2019/05/11/django_settings/</link>
