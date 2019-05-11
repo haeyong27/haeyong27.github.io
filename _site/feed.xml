@@ -5,8 +5,8 @@
     <description>Actually, less is more!</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 10 May 2019 22:31:07 +0900</pubDate>
-    <lastBuildDate>Fri, 10 May 2019 22:31:07 +0900</lastBuildDate>
+    <pubDate>Sat, 11 May 2019 05:03:34 +0900</pubDate>
+    <lastBuildDate>Sat, 11 May 2019 05:03:34 +0900</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -33,10 +33,24 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
     
       <item>
         <title>iterm2 setting</title>
-        <description>&lt;p&gt;youtube : &lt;a href=&quot;https://www.youtube.com/watch?v=pTW02GMeI74&quot;&gt;Customizing iterm2 with ZSH and PowerLevel9k&lt;/a&gt;&lt;/p&gt;
+        <description>&lt;h2 id=&quot;customizing&quot;&gt;customizing&lt;/h2&gt;
 
-&lt;p&gt;유튜브 링크 걸면 이미지까지 같이 보여주는거
-사진넣기&lt;/p&gt;
+&lt;p&gt;youtube : &lt;a href=&quot;https://www.youtube.com/watch?v=pTW02GMeI74&quot;&gt;Customizing iterm2 with ZSH and PowerLevel9k&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;reinstall-zsh-cuz-not-working-conda&quot;&gt;reinstall zsh (cuz not working conda)&lt;/h2&gt;
+
+&lt;h3 id=&quot;delete-oh-my-zsh&quot;&gt;delete oh my zsh&lt;/h3&gt;
+&lt;p&gt;Uninstalling Oh My Zsh
+Oh My Zsh isn’t for everyone. We’ll miss you, but we want to make this an easy breakup.&lt;/p&gt;
+
+&lt;p&gt;If you want to uninstall oh-my-zsh, just run &lt;code class=&quot;highlighter-rouge&quot;&gt;uninstall_oh_my_zsh&lt;/code&gt; from the command-line. It will remove itself and revert your previous bash or zsh configuration.&lt;/p&gt;
+
+&lt;h3 id=&quot;reinstall&quot;&gt;reinstall&lt;/h3&gt;
+&lt;p&gt;stack overflow : &lt;a href=&quot;https://stackoverflow.com/a/35375476/7265837&quot;&gt;Zsh: Conda/Pip installs command not found&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;As of today Nov 4, 2018 all the following methods works, install the zsh with:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 May 2019 16:42:00 +0900</pubDate>
         <link>http://localhost:4000/2019/05/10/iterm2/</link>
@@ -51,7 +65,10 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
     
       <item>
         <title>VSCode 장고 디버깅 세팅하기</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://www.askcompany.kr/r/articles/fdd389f/&quot;&gt;Ask Company VOD&lt;/a&gt; 의 컨텐츠를 기반으로 작성된 포스팅입니다. &lt;br /&gt;
+        <description>&lt;p&gt;디버깅을 위한 옵션
+runserver –noreload –nothreading&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.askcompany.kr/r/articles/fdd389f/&quot;&gt;Ask Company VOD&lt;/a&gt; 의 컨텐츠를 기반으로 작성된 포스팅입니다. &lt;br /&gt;
 &lt;img src=&quot;https://askcompanyjpe.blob.core.windows.net/static/askcompany_vod_shared_banner.jpg&quot; style=&quot;border: 0; width: 250px;&quot; /&gt;&lt;/p&gt;
 
 </description>
@@ -109,6 +126,31 @@ http명세가 변경되어도 웹은 잘 동작한다.&lt;/p&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;To see which packages are installed in your current conda environment and their version numbers, in your terminal window or an Anaconda Prompt, run &lt;code class=&quot;highlighter-rouge&quot;&gt;conda list&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;장고의-주요-기능&quot;&gt;장고의 주요 기능&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Views : HTTP 요청 처리&lt;/li&gt;
+  &lt;li&gt;Models : 데이터베이스와의 인터페이스&lt;/li&gt;
+  &lt;li&gt;Templates : 문자열 조합을 용이하게&lt;/li&gt;
+  &lt;li&gt;Admin : 데이터베이스 레코드 관리 UI&lt;/li&gt;
+  &lt;li&gt;Loggin : 메세지 로깅&lt;/li&gt;
+  &lt;li&gt;Static files : 정적인 파일 관리&lt;/li&gt;
+  &lt;li&gt;Messages framework : 메세지 노출&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;modelsviews-모듈을-팩키지로-전환-&quot;&gt;models/views 모듈을 팩키지로 전환 ?&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;모듈 : 파이썬 소스코드 파일&lt;/li&gt;
+  &lt;li&gt;팩키지 : 파이썬 소스코드 디렉토리&lt;/li&gt;
+  &lt;li&gt;1안) 다음 기본 구성을&lt;/li&gt;
+  &lt;li&gt;shop/models.py 내 Item모델, Review모델&lt;/li&gt;
+  &lt;li&gt;2안) 앱 복잡도에 따라, 다음과 같이 변경해보실 수도 있습니다.&lt;/li&gt;
+  &lt;li&gt;shop/models/&lt;/li&gt;
+  &lt;li&gt;item.py 내 Item모델&lt;/li&gt;
+  &lt;li&gt;review.py 내 Review모델&lt;/li&gt;
+  &lt;li&gt;__init__.py 내에서는 from .item import * 와 같이 임포트하게되면, 모델 외부에
+서는 (1안)과 동일하게 사용할 수 있습니다.&lt;/li&gt;
+&lt;/ul&gt;
 </description>
         <pubDate>Thu, 09 May 2019 14:31:01 +0900</pubDate>
         <link>http://localhost:4000/2019/05/09/django_start/</link>

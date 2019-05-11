@@ -181,6 +181,31 @@
 
 <p>To see which packages are installed in your current conda environment and their version numbers, in your terminal window or an Anaconda Prompt, run <code class="highlighter-rouge">conda list</code></p>
 
+<h2 id="장고의-주요-기능">장고의 주요 기능</h2>
+<ul>
+  <li>Views : HTTP 요청 처리</li>
+  <li>Models : 데이터베이스와의 인터페이스</li>
+  <li>Templates : 문자열 조합을 용이하게</li>
+  <li>Admin : 데이터베이스 레코드 관리 UI</li>
+  <li>Loggin : 메세지 로깅</li>
+  <li>Static files : 정적인 파일 관리</li>
+  <li>Messages framework : 메세지 노출</li>
+</ul>
+
+<h2 id="modelsviews-모듈을-팩키지로-전환-">models/views 모듈을 팩키지로 전환 ?</h2>
+<ul>
+  <li>모듈 : 파이썬 소스코드 파일</li>
+  <li>팩키지 : 파이썬 소스코드 디렉토리</li>
+  <li>1안) 다음 기본 구성을</li>
+  <li>shop/models.py 내 Item모델, Review모델</li>
+  <li>2안) 앱 복잡도에 따라, 다음과 같이 변경해보실 수도 있습니다.</li>
+  <li>shop/models/</li>
+  <li>item.py 내 Item모델</li>
+  <li>review.py 내 Review모델</li>
+  <li>__init__.py 내에서는 from .item import * 와 같이 임포트하게되면, 모델 외부에
+서는 (1안)과 동일하게 사용할 수 있습니다.</li>
+</ul>
+
             </article>
         </div>
       </div>
