@@ -47,3 +47,27 @@ settings.TEMPLATES 의 DIRS = [] 설정에 의존한다.
 부모템플릿은 자식 템플릿이 비집고 들어올 수 있는 다수의 영역(block)을 정의할 수 있다.  
 
 검색해보기 : block.super 
+```
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>{ % block title %} Blog for 황해용 { % endblock %}</title>
+
+        <style>
+            body { background-color: lightyellow}
+        </style>
+        { % block extra_head %}{ % endblock %}
+    </head>
+    <body>
+        <h1>황해용</h1>
+        { % block content %}
+        { % endblock %}
+
+
+        { % block extra_body %}{ % endblock %}
+    </body>
+</html>
+```
+```{ % block extra_head %}{ % endblock %}```  
+```{ % block extra_body %}{ % endblock %}```  
+부모가 자식이 비집고 들어올 수 있는 공간을 만들어 주는게 좋다. 
