@@ -1,9 +1,9 @@
 remote_theme : mmistakes/minimal-mistakes
 
 # Site Info
-title: haeyong27 Lanyon
-tagline: 'A Jekyll theme based on Lanyon'
-description: 'A Jekyll theme adapted from <a href="http://lanyon.getpoole.com/" target="_blank">Lanyon</a>. Made by <a href="http://haeyong27.github.io" target="_blank">@haeyong27</a>.'
+title: '개발 공부 로그'
+tagline: '개발 공부 로그'
+description: 'DJango Rest Framework, Vue.js, Nuxt.js 공부하는 개발자'
 baseurl: ""
 url: https://haeyong27.github.io
 logo: '/public/logo.png'
@@ -22,12 +22,12 @@ paginate: 5
 paginate_path: '/blog/page:num'
 permalink: pretty
 
-# version: 1.0.0
+version: 1.0.0
 
 # About/contact
 author:
-  name: haeyong27
-  # description: A passionate <strong>developer and researcher</strong>, learning to be a giant.
+  name: HWANG HAEYONG
+  description: 황해용
   # gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
   contact:
     # linkedin:  
@@ -35,7 +35,7 @@ author:
     # facebook:  <hide>
     # twitter:   
     # weibo:     
-    # email:     
+    email: mailto:haeyong.hwang27@gmail.com     
 
 # Navigation (2nd level links supported)
 nav:
@@ -63,3 +63,6 @@ mathjax: true # whether support mathjax
 # google_analytics_token: 'UA-00000000-1' # leave blank if you don't want google analytics
 # disqus_short_name: 'your_short_name' # leave blank if you don't want disqus
 
+# Use the following plug-ins
+gems:
+  - jekyll-paginate
