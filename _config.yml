@@ -47,8 +47,8 @@ nav:
     - { Tags: '/blog/tags/' }
   About:          
     - '/about/'
-  Github Project: 
-    - 'http://haeyong27.github.io/'
+  # Github Project: 
+  #   - 'http://haeyong27.github.io/'
 
 # Where are tags and categories displayed
 tag_page: '/blog/tags/'
