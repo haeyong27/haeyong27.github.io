@@ -22,15 +22,15 @@ paginate: 5
 paginate_path: '/blog/page:num'
 permalink: pretty
 
-version: 1.0.0
+# version: 1.0.0
 
 # About/contact
 author:
   name: haeyong27
-  description: A passionate <strong>developer and researcher</strong>, learning to be a giant.
-  gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
+  # description: A passionate <strong>developer and researcher</strong>, learning to be a giant.
+  # gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
   contact:
-    linkedin:  
+    # linkedin:  
     github:    https://github.com/haeyong27
     # facebook:  <hide>
     # twitter:   
@@ -54,9 +54,9 @@ nav:
 tag_page: '/blog/tags/'
 category_page: '/blog/categories/'
 
-hero:
-  image: /public/img/we_will_be_giants_by_yalestewart.jpg
-  caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
+# hero:
+#   image: /public/img/we_will_be_giants_by_yalestewart.jpg
+  # caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
 
 # Puglins
 mathjax: true # whether support mathjax
