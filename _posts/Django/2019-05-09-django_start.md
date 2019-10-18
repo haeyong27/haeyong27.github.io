@@ -3,16 +3,17 @@ layout: post
 title:  "django start"
 date:   2019-05-09 13:31:01 +0800
 categories: django
-tag: django
+tag: [django, model]
 ---
+
 ## 장고의 주요 기능
-- Views : HTTP 요청 처리  
-- Models : 데이터베이스와의 인터페이스  
-- Templates : 문자열 조합을 용이하게  
-- Admin : 데이터베이스 레코드 관리 UI  
-- Loggin : 메세지 로깅  
-- Static files : 정적인 파일 관리  
-- Messages framework : 메세지 노출   
+- Views : HTTP 요청 처리
+- Models : 데이터베이스와의 인터페이스
+- Templates : 문자열 조합을 용이하게
+- Admin : 데이터베이스 레코드 관리 UI
+- Loggin : 메세지 로깅
+- Static files : 정적인 파일 관리
+- Messages framework : 메세지 노출 
 
 
 ## models/views 모듈을 팩키지로 전환 ?
@@ -28,12 +29,6 @@ tag: django
 서는 (1안)과 동일하게 사용할 수 있습니다.
 
 
-## 장고쉘
-python manage.py shell
-
-```pip install django-extensions```
-
-
 ## 장고 모델 (ORM)
 object relational mapping
 데이터 베이스 :RDBMS, NoSQL
@@ -42,14 +37,14 @@ object relational mapping
 
 모델명과 DB 테이블 명
 DB 테이블명 : 디폴트 "앱이름_모델명"
-예  
+예
 blog 앱 
 Post 모델 -> 'blog_post'
 Comment 모델 -> 'blog_comment'
 
 ## 모델을 통한 데이터 조회
 ModelCls.objects.all() -> QuerySet 
-순회가능한 객체이다. 
+순회가능한 객체이다.
 Chaining을 지원한다.
 • QueyrSet은 Lazy한 특성
 • QuerySet을 만드는 동안에는 DB접근을 하지 않습니다.
