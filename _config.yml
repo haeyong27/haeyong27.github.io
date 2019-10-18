@@ -41,10 +41,11 @@ author:
 nav:
   Home:           
     - '/'
-  Blog:           
+  Categories: 
     - '/blog/'
-    - { Categories: '/blog/categories/' }
-    - { Tags: '/blog/tags/' }
+    - { TIL (Today I Learned): '/blog/categories/#til' }
+  Tags:
+    - '/blog/tags/'
   About:          
     - '/about/'
   # Github Project: 
