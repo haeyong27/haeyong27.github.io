@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "database indexing"
-date:   2019-10-15 13:31:01 +0900
-categories: django
-tag: [django, model]
+date:   2019-10-15
+categories: Database
+tag: [Database, model]
 ---
 <iframe width="560" height="315" src="https://www.youtube.com/embed/uO8tL0okg7Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

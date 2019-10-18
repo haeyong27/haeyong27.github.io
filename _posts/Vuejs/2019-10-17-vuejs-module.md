@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "django start"
-date:   2019-10-17 13:31:01 +0900
+title:  "Vuejs"
+date:   2019-10-17
 categories: vuejs
 tag: [vuejs, nuxtjs, terminology]
 ---
