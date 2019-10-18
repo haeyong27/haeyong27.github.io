@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "django start"
-date:   2019-05-09 13:31:01 +0800
+date:   2019-05-09
 categories: django
 tag: [django, model]
 ---
