@@ -1,9 +1,9 @@
 remote_theme : mmistakes/minimal-mistakes
 
 # Site Info
-title: '개발 공부 로그'
-tagline: '개발 공부 로그'
-description: 'DJango Rest Framework, Vue.js, Nuxt.js 공부하는 개발자'
+title: '풀스택 개발 공부로그'
+tagline: '풀스택 개발 공부로그'
+description: 'Python, DJango Rest Framework, Javascript, Vue.js, Nuxt.js, Database, AWS(RDS, EB, S3, VPC)를 공부합니다.'
 baseurl: ""
 url: https://haeyong27.github.io
 logo: '/public/logo.png'
