@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "django start"
+title:  "Django Start"
 date:   2019-05-09
-categories: django
-tag: [django, model]
+categories: Django
+tag: [Django, model]
 ---
 
 ## 장고의 주요 기능

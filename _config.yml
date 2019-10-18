@@ -43,7 +43,11 @@ nav:
     - '/'
   Categories: 
     - '/blog/'
-    - { TIL (Today I Learned): '/blog/categories/#til' }
+    - { Django: '/blog/categories/#Django' }
+    - { Vuejs: '/blog/categories/#Vuejs' }
+    - { Database: '/blog/categories/#Database' }
+    - { AWS: '/blog/categories/#AWS' }
+    - { WEB: '/blog/categories/#WEB' }
   Tags:
     - '/blog/tags/'
   About:          

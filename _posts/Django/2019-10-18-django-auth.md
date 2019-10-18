@@ -2,8 +2,8 @@
 layout: post
 title:  "Django Authentication"
 date:   2019-10-18
-categories: django
-tag: [django, auth]
+categories: Django
+tag: [Django, auth]
 ---
 
 - [django user](#django-user)

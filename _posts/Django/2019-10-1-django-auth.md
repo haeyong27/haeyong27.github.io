@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "vuejs, nuxtjs module"
-date:   2019-10-01 13:31:01 +0900
-categories: django
-tag: [django, auth]
+title:  "Django Rest Framework Auth Library(allauth, rest-auth)"
+date:   2019-10-01
+categories: Django
+tag: [Django, auth]
 ---
 
 
