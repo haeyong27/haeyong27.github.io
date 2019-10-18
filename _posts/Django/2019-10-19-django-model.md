@@ -18,7 +18,7 @@ tag: [Django, model]
   - [Abstract base classes](#abstract-base-classes)
 
 # Django Model
-참고 : https://docs.djangoproject.com/en/2.2/topics/db/models/
+참고 : [Django Model Documentation](https://docs.djangoproject.com/en/2.2/topics/db/models/)
 
 # Overview
 > A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.
