@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Vuejs"
+title:  "Vuejs Module"
 date:   2019-10-17
 categories: Vuejs
 tag: [Vuejs, Nuxtjs, terminology]
