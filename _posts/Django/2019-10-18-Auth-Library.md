@@ -5,6 +5,13 @@ date:   2019-10-01
 categories: Django
 tag: [Django, auth]
 ---
+- [시작](#%ec%8b%9c%ec%9e%91)
+- [django library](#django-library)
+  - [rest-auth](#rest-auth)
+  - [all auth](#all-auth)
+  - [실패이유 이걸 꼭 등록해야됨.](#%ec%8b%a4%ed%8c%a8%ec%9d%b4%ec%9c%a0-%ec%9d%b4%ea%b1%b8-%ea%bc%ad-%eb%93%b1%eb%a1%9d%ed%95%b4%ec%95%bc%eb%90%a8)
+
+
 
 OAuth2 allauth, rest-auth
 ## 시작

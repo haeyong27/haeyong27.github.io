@@ -5,6 +5,11 @@ date:   2019-10-19
 categories: Django
 tag: [Django, performance]
 ---
+- [DJango documentation](#django-documentation)
+- [Serialization Performance](#serialization-performance)
+- [Optimization](#optimization)
+  - [Basic Performance Optimization in Django](#basic-performance-optimization-in-django)
+
 
 # DJango documentation
 [Performance and optimization | Django documentation | Django](https://docs.djangoproject.com/en/2.2/topics/performance/)
