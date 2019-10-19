@@ -6,8 +6,6 @@ categories: Django
 tag: [Django, auth]
 ---
 
-
-
 OAuth2 allauth, rest-auth
 ## 시작
 [OAuth 2.0 — OAuth](https://oauth.net/2/)

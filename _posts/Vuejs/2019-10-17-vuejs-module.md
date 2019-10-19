@@ -58,6 +58,4 @@ Your module is a buildModule unless:
 보통 모듈은 개발과정이나 빌드타임에서만 필요합니다. buildModules는 production startup를 더 빠르게 할 수 있도록 도와주고 production 배포시 node_moduels 사이즈를 감소시켜줍니다. 
 
 ---
-#study/programming/vue
-#date/2019/10/17
 17 Oct 2019 3:20 PM
