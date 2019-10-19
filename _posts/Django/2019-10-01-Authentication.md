@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Django Authentication"
+title:  "Authentication"
 date:   2019-10-18
 categories: Django
 tag: [Django, auth]

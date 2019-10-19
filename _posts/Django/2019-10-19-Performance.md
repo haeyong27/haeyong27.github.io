@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "DRF performance"
+title:  "performance"
 date:   2019-10-19
 categories: Django
 tag: [Django, performance]

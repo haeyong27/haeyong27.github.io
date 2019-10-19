@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "DRF Serializers"
+title:  "Serializers"
 date:   2019-10-19
 categories: Django
 tag: [Django, DRF]
