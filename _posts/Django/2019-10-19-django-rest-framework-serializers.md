@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Django Rest Framework Auth Serializers"
+title:  "Django Rest Framework Serializers"
 date:   2019-10-19
 categories: Django
 tag: [Django, DRF]
