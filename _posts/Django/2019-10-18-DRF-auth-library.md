@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Django Rest Framework Auth Library(allauth, rest-auth)"
+title:  "DRF Auth Library(allauth, rest-auth)"
 date:   2019-10-01
 categories: Django
 tag: [Django, auth]
