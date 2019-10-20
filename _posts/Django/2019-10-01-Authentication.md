@@ -12,6 +12,9 @@ tag: [Django, auth]
   - [User](#user)
   - [Authentication in Web requests](#authentication-in-web-requests)
     - [How to log a user in](#how-to-log-a-user-in)
+- [DJango User Model](#django-user-model)
+- [Substituting a custom User model](#substituting-a-custom-user-model)
+- [Unauthorized and Forbidden responses](#unauthorized-and-forbidden-responses)
 
 # django user
 [User authentication in Django | Django documentation | Django](https://docs.djangoproject.com/en/2.2/topics/auth/)
@@ -100,6 +103,43 @@ def my_view(request):
         ...
 ```
 POST를 통해 입력받은 username과 password를 사용하여 사용자 검증을 하고 통과한다면 이전에 받은 HttpRequest와 user정보를 login함수에 인자로 전달합니다. 
+
+# DJango User Model
+[Django user model](https://docs.djangoproject.com/en/2.2/ref/contrib/auth/)
+
+# Substituting a custom User model
+[Substituting a custom User model](https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#substituting-a-custom-user-model)
+
+> Some kinds of projects may have authentication requirements for which Django’s built-in User model is not always appropriate. For instance, on some sites it makes more sense to use an email address as your identification token instead of a username.
+
+장고에서 기본적으로 제공해주는 USER모델로 충분하지 않은 프로젝트들이 있습니다. 인증토큰으로 사용자이름대신 이메일 주소를 사용하는것 처럼 말입니다. 
+
+> Django allows you to override the default user model by providing a value for the  [AUTH_USER_MODEL](https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-AUTH_USER_MODEL)  setting that references a custom model:
+
+```python
+AUTH_USER_MODEL = ‘myapp.MyUser’
+```
+
+> This dotted pair describes the name of the Django app (which must be in your INSTALLED_APPS), and the name of the Django model that you wish to use as your user model.
+
+# Unauthorized and Forbidden responses
+[Unauthorized and Forbidden responses](https://www.django-rest-framework.org/api-guide/authentication/#unauthorized-and-forbidden-responses)
+> When an unauthenticated request is denied permission there are two different error codes that may be appropriate.
+
+인증되지 않은 요청에 대해서 다음 두가지 에러코드가 적절합니다.
+
+- HTTP 401 Unauthorized
+- HTTP 403 Permission Denied
+
+
+> HTTP 401 responses must always include a WWW-Authenticate header, that instructs the client how to authenticate. HTTP 403 responses do not include the WWW-Authenticate header.
+
+401 응답(해당 리소스에 유효한 인증 자격 증명이 없음)은 WWW-Authenticate 헤더가 있어야하고 클라이언트가 어떻게 인증해야하는지 알려줍니다. 403 응답(서버에 요청이 전달되었지만, 권한때문에 거절)에는 WWW-Authenticate 헤더가 포함되어있지 않습니다. 
+
+> The kind of response that will be used depends on the authentication scheme. Although multiple authentication schemes may be in use, only one scheme may be used to determine the type of response. The first authentication class set on the view is used when determining the type of response.
+
+> Note that when a request may successfully authenticate, but still be denied permission to perform the request, in which case a 403 Permission Denied response will always be used, regardless of the authentication scheme.
+
 
 
 ---
