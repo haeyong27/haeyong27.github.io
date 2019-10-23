@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "performance"
+title:  "Performance"
 date:   2019-10-19
 categories: Django
 tag: [Django, performance]
