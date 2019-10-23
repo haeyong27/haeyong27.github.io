@@ -63,9 +63,3 @@ import VueNotifications from ‘vue-notifications’
 Vue.use(VueNotifications)
 ```
 
-
-
----
-17 Oct 2019 2:42 PM
-#date/2019/10/17
-#study/programming/vue
