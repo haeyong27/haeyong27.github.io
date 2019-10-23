@@ -3,7 +3,7 @@ layout: post
 title:  "Migrations"
 date:   2019-10-23
 categories: Django
-tag: [Django, auth]
+tag: [Django, Database]
 ---
 - [Django Migrate](#django-migrate)
 - [migrate 정방향, 역방향](#migrate-%ec%a0%95%eb%b0%a9%ed%96%a5-%ec%97%ad%eb%b0%a9%ed%96%a5)
