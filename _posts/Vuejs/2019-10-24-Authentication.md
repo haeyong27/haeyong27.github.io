@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Authentication"
+title:  "Middleware (for authentication)"
 date:   2019-10-24
 categories: Vuejs
-tag: [Vuejs, Nuxtjs, routes]
+tag: [Vuejs, Nuxtjs, routes, auth]
 ---
 - [routing](#routing)
   - [midleware](#midleware)
