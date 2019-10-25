@@ -20,3 +20,4 @@ FK가 있는 테이블은 child table, candidate key를 가지고 있는 테이�
 > The FOREIGN KEY constraint also prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the table it points to.
 
 foreign key constraint는 유효하지 않은 데이터가 foreign key column에 삽입되는것을 방지합니다. 삽입하려는 값이 FK가 가리키고 있는 테이블에 있는 값들 중 하나여야 하기 때문입니다.  
+
