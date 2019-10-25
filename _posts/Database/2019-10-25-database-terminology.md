@@ -6,6 +6,17 @@ categories: Database
 tag: [Database, terminology]
 ---
 
+- [DB Term](#db-term)
+  - [Relation](#relation)
+    - [meaning](#meaning)
+    - [Relation schema](#relation-schema)
+    - [Relation instance](#relation-instance)
+  - [KEY](#key)
+    - [Super key](#super-key)
+    - [Candidate key](#candidate-key)
+    - [Primary key(PK)](#primary-keypk)
+    - [Foreign key(FK)](#foreign-keyfk)
+
 # DB Term
 ## Relation
 ### meaning
