@@ -9,8 +9,6 @@ tag: [Database, Youtube, DataStructure]
 - [Indexing detail](#indexing-detail)
   - [인덱스 1](#%ec%9d%b8%eb%8d%b1%ec%8a%a4-1)
   - [인덱스 2](#%ec%9d%b8%eb%8d%b1%ec%8a%a4-2)
-  - [이것이 MySQL이다 09. MySQL 인덱스(2) - YouTube](#%ec%9d%b4%ea%b2%83%ec%9d%b4-mysql%ec%9d%b4%eb%8b%a4-09-mysql-%ec%9d%b8%eb%8d%b1%ec%8a%a42---youtube)
-  - [B-Tree Tutorial - An Introduction to B-Trees - YouTube](#b-tree-tutorial---an-introduction-to-b-trees---youtube)
 
 # Indexing detail
 ## 인덱스 1
@@ -29,10 +27,13 @@ PK를 지정하면 PK를 기준으로 클러스터형 인덱스가 생성된다.
 
 ## 인덱스 2
 [이것이 MySQL이다 09. MySQL 인덱스(2) - YouTube](https://www.youtube.com/watch?v=qW9X4w_SnT4&list=PLVsNizTWUw7HhYtI-4GGmlJ5yxNdwNI_X&index=30)
+
 ---
 내부 작동 B-tree
 [B-Tree Tutorial - An Introduction to B-Trees - YouTube](https://www.youtube.com/watch?v=C_q5ccN84C8)
+
 ---
+
 8:12 클러스터형 인덱스와 보조인덱스의 구조 
 
 9:50 pk(primary key), 클러스터형
