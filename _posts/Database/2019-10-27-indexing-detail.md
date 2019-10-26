@@ -9,6 +9,7 @@ tag: [Database, Youtube, DataStructure]
 - [Indexing detail](#indexing-detail)
   - [인덱스 1](#%ec%9d%b8%eb%8d%b1%ec%8a%a4-1)
   - [인덱스 2](#%ec%9d%b8%eb%8d%b1%ec%8a%a4-2)
+  - [인덱스 3](#%ec%9d%b8%eb%8d%b1%ec%8a%a4-3)
 
 # Indexing detail
 ## 인덱스 1
@@ -46,3 +47,14 @@ PK를 지정하면 PK를 기준으로 클러스터형 인덱스가 생성된다.
 
 16:07 클러스터형과 비 클러스터형의 비교 
 클러스터형의 장점 : 범위검색에 좋다. 
+
+
+## 인덱스 3
+[이것이 MySQL이다 09. MySQL 인덱스(3) - YouTube](https://www.youtube.com/watch?v=pOaLJVnGJgM&list=PLVsNizTWUw7HhYtI-4GGmlJ5yxNdwNI_X&index=31)
+
+3:00 혼합 인덱스 내부 구성 
+
+5:12 보조 인덱스에 데이터가 다 들어있다면 생기는 문제점, 단점 
+
+9:00 실습시작
+
