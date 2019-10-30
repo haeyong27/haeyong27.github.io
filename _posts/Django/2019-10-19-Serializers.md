@@ -74,6 +74,9 @@ class SnippetSerializer(serializers.ModelSerializer):
 
 ModelSerializer는 serializer에서 직접 작성해줘야하는 save, update같은 함수를 자동으로 만들어줍니다. 또한 메타클레스에 필드명만 입력해줘도 자동으로 serializer에서 정의하는 필드들을 완성해줍니다. 
 
+[serializer의 성능](https://haeyong27.github.io/django/2019/10/19/Performance/)에 관한 글 참고
+
+
 # Writing regular Django views using our Serializer
 ```python
 @csrf_exempt
