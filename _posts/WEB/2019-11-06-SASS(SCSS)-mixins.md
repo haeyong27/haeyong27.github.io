@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "SCSS(SASS) - mixin, extend, import"
+title:  "SCSS(SASS) - mixin, extend, import, if"
 date:   2019-11-06
 categories: WEB
 tag: [CSS, WEB]
@@ -9,6 +9,7 @@ tag: [CSS, WEB]
   - [mixin](#mixin)
   - [extend](#extend)
   - [import](#import)
+  - [if](#if)
 # SASS(SCSS) - mixin, extend, import
 
 ## mixin 
@@ -48,6 +49,43 @@ underscore로 시작하는 파일은 컴파일이 안됨.
 @import “mixins” // 불러들일 때는 "_"를 안쓴다. 
 ```
 
+## if 
+
+
+```scss
+body {
+    margin: 50px;
+}
+
+@mixin textandbgcolor($textcolor, $bgcolor) {
+    color: $textcolor;
+    background-color: $bgcolor;
+}
+
+@mixin theme($mood) {
+    @if $mood == 'light' {
+        @include textandbgcolor(#333333, #ffff00)
+    }
+    @else if $mood == 'dark' {
+        @include textandbgcolor(#fff, #000000)
+    }
+    @else {
+        @include textandbgcolor(#ff0000, #aaa)
+    }
+}
+
+#box1 {
+    @include theme('light')
+}
+
+#box2 {
+    @include theme('dark')
+}
+
+#box3 {
+    @include theme('light2')
+}
+```
 
 
 
