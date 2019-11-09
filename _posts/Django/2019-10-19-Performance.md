@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Performance"
+title:  "Django Restframework Serializer Performance Compare"
 date:   2019-10-19
 categories: Django
 tag: [Django, performance]

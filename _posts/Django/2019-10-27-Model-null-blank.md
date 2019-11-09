@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Model option null and blank for string-based fields"
+title:  "Django Model option null, blank(string-based fields)"
 date:   2019-10-27
 categories: Django
 tag: [Django, Database]

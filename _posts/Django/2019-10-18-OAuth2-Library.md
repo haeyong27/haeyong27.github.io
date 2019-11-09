@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OAuth2.0 Library(allauth, rest-auth)"
+title:  "Django OAuth2.0 Library(allauth, rest-auth)"
 date:   2019-10-01
 categories: Django
 tag: [Django, auth]

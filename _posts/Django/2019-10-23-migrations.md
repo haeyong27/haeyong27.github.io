@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Migrations"
+title:  "Django Migrations"
 date:   2019-10-23
 categories: Django
 tag: [Django, Database]

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Serializers"
+title:  "Django Restframework Serializers Overview"
 date:   2019-10-19
 categories: Django
 tag: [Django, DRF]
