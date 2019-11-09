@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Component vs Mixins vs Plugins in Vue.js"
+title:  "Component, Mixins, Plugins in Vue.js"
 date:   2019-10-23
 categories: Vuejs
 tag: [Vuejs]
 ---
 
 
-# Component vs Mixins vs Plugins in Vue.js
+# Component, Mixins, Plugins in Vue.js
 참고 : [Component vs Mixins vs Plugins in Vue.js](https://medium.com/@victorlucss/component-vs-mixins-vs-plugins-in-vue-js-6a8bce29d6ec)	
 ## Introduction
 ### Components
