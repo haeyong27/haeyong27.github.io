@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Component, Mixins, Plugins in Vue.js"
+title:  "Vue.js Component, Mixins, Plugins"
 date:   2019-10-23
 categories: Vuejs
 tag: [Vuejs]

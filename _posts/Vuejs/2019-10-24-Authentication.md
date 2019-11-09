@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Middleware (for authentication)"
+title:  "Vue.js, Nuxt.js Middleware (for authentication)"
 date:   2019-10-24
 categories: Vuejs
 tag: [Vuejs, Nuxtjs, auth]
