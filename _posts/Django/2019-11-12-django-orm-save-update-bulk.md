@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "How Django knows to UPDATE vs. INSERT(feat. 효율적인 bulk save, update)"
+title:  "How Django knows to UPDATE vs. INSERT(bulk save, update)"
 date:   2019-11-12
 categories: Django
 tag: [Django]
