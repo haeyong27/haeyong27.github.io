@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Django Restframework Serializer"
+title:  "Django Restframework Serializer(ForeignKey, nested objects)"
 date:   2019-11-10
 categories: Django
 tag: [Django, DRF]
@@ -8,8 +8,6 @@ tag: [Django, DRF]
 
 - [django restframework serializer](#django-restframework-serializer)
   - [Dealing with nested objects](#dealing-with-nested-objects)
-  - [Dealing with multiple objects](#dealing-with-multiple-objects)
-  - [ModelSerializer](#modelserializer)
 
 # django restframework serializer  
 [Serializers - Django REST framework](https://www.django-rest-framework.org/api-guide/serializers/)
@@ -53,38 +51,6 @@ class CommentSerializer(serializers.Serializer):
 > The previous examples are fine for dealing with objects that only have simple datatypes, but sometimes we also need to be able to represent more complex objects, where some of the attributes of an object might not be simple datatypes such as strings, dates or integers.
 
 
-##  Dealing with multiple objects
-[Dealing with multiple objects](https://www.django-rest-framework.org/api-guide/serializers/#dealing-with-multiple-objects) 
-
-> The Serializer class can also handle serializing or deserializing lists of objects.
-> To serialize a queryset or list of objects instead of a single object instance, you should pass the many=True flag when instantiating the serializer. You can then pass a queryset or list of objects to be serialized.
-
-object를 serialize, deserialize하는것 이외에도 쿼리셋도 같은 작업을 할 수 있다. many=True 옵션을 주면된다.
-
-```python
-queryset = Book.objects.all()
-serializer = BookSerializer(queryset, many=True)
-serializer.data
-# [
-#     {'id': 0, 'title': 'The electric kool-aid acid test', 'author': 'Tom Wolfe'},
-#     {'id': 1, 'title': 'If this is a man', 'author': 'Primo Levi'},
-#     {'id': 2, 'title': 'The wind-up bird chronicle', 'author': 'Haruki Murakami'}
-# ]
-```
-
-## ModelSerializer
-[ModelSerializer](https://www.django-rest-framework.org/api-guide/serializers/#modelserializer)
-
-> Often you’ll want serializer classes that map closely to Django model definitions.
-> The ModelSerializer class provides a shortcut that lets you automatically create a Serializer class with fields that correspond to the Model fields.
-> **The**ModelSerializer**class is the same as a regular**Serializer**class, except that**:
-* It will automatically generate a set of fields for you, based on the model.
-* It will automatically generate validators for the serializer, such as unique_together validators.
-* It includes simple default implementations of .create() and .update().
-Declaring a ModelSerializer looks like this:
-
-모델시리얼라이저는 Serializer와 동일한 기능을하고 추가적으로 편리한 기능을 제공한다. 모델만 입력해주면 자동으로 모든 필드에 대해 처리를 해준다. 하지만 웬만하면 사용하지 않을것이다. 성능의 저하를 가져온다.  
-참고글 : [Improve Serialization Performance in Django Rest Framework | Haki Benita](https://hakibenita.com/django-rest-framework-slow)
 
 
 

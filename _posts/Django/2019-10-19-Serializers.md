@@ -7,7 +7,7 @@ tag: [Django, DRF]
 ---
 - [Introduction](#introduction)
 - [Serializer class](#serializer-class)
-  - [queryset](#queryset)
+  - [Dealing with multiple objects](#dealing-with-multiple-objects)
 - [ModelSerializers](#modelserializers)
 - [Writing regular Django views using our Serializer](#writing-regular-django-views-using-our-serializer)
 
@@ -51,17 +51,33 @@ class SnippetSerializer(serializers.Serializer):
         return instance
 ```
 
-## queryset
-> We can also serialize querysets instead of model instances. To do so we simply add a many=True flag to the serializer arguments.
 
-모델 인스턴스 대신 쿼리셋을 직렬화 할 수 있습니다. many옵션을 True로 설정해주면 됩니다.
+
+##  Dealing with multiple objects
+[Dealing with multiple objects](https://www.django-rest-framework.org/api-guide/serializers/#dealing-with-multiple-objects) 
+
+> The Serializer class can also handle serializing or deserializing lists of objects.
+> To serialize a queryset or list of objects instead of a single object instance, you should pass the many=True flag when instantiating the serializer. You can then pass a queryset or list of objects to be serialized.
+
+object를 serialize, deserialize하는것 이외에도 쿼리셋도 같은 작업을 할 수 있다. many=True 옵션을 주면된다.
 
 ```python
-serializer = SnippetSerializer(Snippet.objects.all(), many=True)
+queryset = Book.objects.all()
+serializer = BookSerializer(queryset, many=True)
 serializer.data
+# [
+#     {'id': 0, 'title': 'The electric kool-aid acid test', 'author': 'Tom Wolfe'},
+#     {'id': 1, 'title': 'If this is a man', 'author': 'Primo Levi'},
+#     {'id': 2, 'title': 'The wind-up bird chronicle', 'author': 'Haruki Murakami'}
+# ]
 ```
 
 # ModelSerializers
+
+
+[ModelSerializer](https://www.django-rest-framework.org/api-guide/serializers/#modelserializer)
+
+
 - An automatically determined set of fields.
 - Simple default implementations for the create() and update() methods.
 
@@ -72,9 +88,22 @@ class SnippetSerializer(serializers.ModelSerializer):
         fields = [‘id’, ‘title’, ‘code’, ‘linenos’, ‘language’, ‘style’]
 ```
 
-ModelSerializer는 serializer에서 직접 작성해줘야하는 save, update같은 함수를 자동으로 만들어줍니다. 또한 메타클레스에 필드명만 입력해줘도 자동으로 serializer에서 정의하는 필드들을 완성해줍니다. 
+ModelSerializer는 serializer에서 직접 작성해줘야하는 save, update같은 함수를 자동으로 만들어준다. 또한 메타클레스에 필드명만 입력해줘도 자동으로 serializer에서 정의하는 필드들을 완성해준다. 
 
-[serializer의 성능](https://haeyong27.github.io/django/2019/10/19/Performance/)에 관한 글 참고
+
+> Often you’ll want serializer classes that map closely to Django model definitions.
+> The ModelSerializer class provides a shortcut that lets you automatically create a Serializer class with fields that correspond to the Model fields.
+> **The**ModelSerializer**class is the same as a regular**Serializer**class, except that**:
+* It will automatically generate a set of fields for you, based on the model.
+* It will automatically generate validators for the serializer, such as unique_together validators.
+* It includes simple default implementations of .create() and .update().
+Declaring a ModelSerializer looks like this:
+
+모델시리얼라이저는 Serializer와 동일한 기능을하고 추가적으로 편리한 기능을 제공한다. 모델만 입력해주면 자동으로 모든 필드에 대해 처리를 해준다. 하지만 웬만하면 사용하지 않을것이다. 성능의 저하를 가져온다.  
+
+- [Improve Serialization Performance in Django Rest Framework](https://hakibenita.com/django-rest-framework-slow)
+- [serializer의 성능](https://haeyong27.github.io/django/2019/10/19/Performance/)에 관한 글 참고
+
 
 
 # Writing regular Django views using our Serializer
@@ -97,10 +126,3 @@ def snippet_list(request):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 ```
-
-
-
-
-
----
-19 Oct 2019 3:38 PM
