@@ -78,7 +78,8 @@ dT2dfVAQtEz97HGjOTGAqbgaEkaveDv6aIk+Ho5sxD5ynygEZS8grYUBDxx3GcAIzzcyd/enCes=
 Status Code:400 Bad Request
 ```
 
-2. 리턴된 pre-signed URL 값에 문제가 있을 수 있다. 
+2. 리턴된 pre-signed URL 값에 문제가 있을 수 있다.
+
 ```
 <Message>
 The authorization mechanism you have provided is not supported. Please use AWS4-HMAC-SHA256.
@@ -98,14 +99,18 @@ pre-signed URL을 생성하는 과정을 다시 살펴본다.
 AWS에서 API로 통신할 때 인증하는 과정에서 서명을 해야하는데 이 서명에도 버전이 있다. 2버젼과 4버젼이 있는데 2버젼은 사용이 중지되어가고 있다. 그렇기 때문에 4버전을 사용해야한다. 필자는 파이썬을 사용했으므로 Python-Boto SDK에 대한 문서를 찾아봤다. 
 
 기본 config 파일인 boto 파일에 다음을 지정해야한다. 
+
 ```
 [s3] use-sigv4 = True
 ```
+
 하지만 이것도 HTML을 통한 HTTP에는 효과가 없다. 
 
 결론 : 
 1번문제의 해결방법인 Javacript SDK를 사용하겠다. 
+
  [Amplify JavaScript](https://aws-amplify.github.io/docs)  
+ 
 [Getting Started](https://aws-amplify.github.io/docs/js/start)
 
 
