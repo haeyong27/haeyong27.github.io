@@ -1,0 +1,171 @@
+I"�6<ul>
+  <li><a href="#django-user">django user</a></li>
+  <li><a href="#overview">overview</a></li>
+  <li><a href="#django-authentication-system">Django authentication system</a>
+    <ul>
+      <li><a href="#user">User</a></li>
+      <li><a href="#authentication-in-web-requests">Authentication in Web requests</a>
+        <ul>
+          <li><a href="#how-to-log-a-user-in">How to log a user in</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#django-user-model">DJango User Model</a></li>
+  <li><a href="#substituting-a-custom-user-model">Substituting a custom User model</a></li>
+  <li><a href="#unauthorized-and-forbidden-responses">Unauthorized and Forbidden responses</a></li>
+</ul>
+
+<h1 id="django-user">django user</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/auth/">User authentication in Django | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>Django comes with a user authentication system. It handles user accounts, groups, permissions and cookie-based user sessions.</p>
+</blockquote>
+
+<p>장고는 사용자 인증 시스템과 함께 제공된다. 사용자 계정, 그룹, 권한, 쿠기기반의 사용자 세션등을 다룬다.</p>
+
+<h1 id="overview">overview</h1>
+<blockquote>
+  <p>The Django authentication system handles both authentication and authorization. Briefly, authentication verifies a user is who they claim to be, and authorization determines what an authenticated user is allowed to do. Here the term authentication is used to refer to both tasks.</p>
+</blockquote>
+
+<ul>
+  <li>authentication : 사용자 인증</li>
+  <li>authorization : 권한 부여<br />
+여기서 사용하는 authentication 라는 용어는 두가지 일 모두를 가리킨다.</li>
+</ul>
+
+<blockquote>
+  <p>The authentication system in Django aims to be very generic and doesn’t provide some features commonly found in web authentication systems. Solutions for some of these common problems have been implemented in third-party packages:</p>
+</blockquote>
+
+<ul>
+  <li>Password strength checking</li>
+  <li>Throttling of login attempts</li>
+  <li>Authentication against third-parties (OAuth, for example)</li>
+  <li>Object-level permissions</li>
+</ul>
+
+<p>장고의 인증 시스템은 매우 일반적인 기능을 제공하지만 일부 기능을 제공하지 않습니다. 이에 대한 대안으로 third-party 패키지가 있습니다. 비밀번호 강도, 로그인 시도 제한, OAuth같은 인증 시스템 등</p>
+
+<p><strong>1.</strong> <strong>’django.contrib.auth’</strong> contains the core of the authentication framework, and its default models.
+<strong>2.</strong> <strong>’django.contrib.contenttypes’</strong> is the Django  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/contenttypes/">content type system</a> , which allows permissions to be associated with models you create.</p>
+
+<p>With these settings in place, running the command <strong>manage.py migrate</strong> creates the necessary database tables for auth related models and permissions for any models defined in your installed apps.</p>
+
+<p>인증과 관련된 모델과 권한들을 생성하기 위해서 manage.py migrate 명령 수행이 필요합니다.</p>
+
+<h1 id="django-authentication-system">Django authentication system</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/auth/default/">Using the Django authentication system | Django documentation | Django</a></p>
+
+<h2 id="user">User</h2>
+<blockquote>
+  <p>objects</p>
+</blockquote>
+
+<p><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  objects are the core of the authentication system. They typically represent the people interacting with your site and are used to enable things like restricting access, registering user profiles, associating content with creators etc. Only one class of user exists in Django’s authentication framework, i.e.,  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.is_superuser">‘superusers’</a>  or admin  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.is_staff">‘staff’</a>  users are just user objects with special attributes set, not different classes of user objects.
+The primary attributes of the default user are:</p>
+<ul>
+  <li><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.username">username</a></li>
+  <li><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.password">password</a></li>
+  <li><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.email">email</a></li>
+  <li><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.first_name">first_name</a></li>
+  <li><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.last_name">last_name</a> 
+See the  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">full API documentation</a>  for full reference, the documentation that follows is more task oriented.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="s">'john'</span><span class="p">,</span> <span class="s">'lennon@thebeatles.com'</span><span class="p">,</span> <span class="s">'johnpassword'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="authentication-in-web-requests">Authentication in Web requests</h2>
+<blockquote>
+  <p>Django uses  <a href="https://docs.djangoproject.com/en/2.2/topics/http/sessions/">sessions</a>  and middleware to hook the authentication system into  <a href="https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest">request objects</a> .</p>
+</blockquote>
+
+<p>장고는 세션과 미들웨어를 사용하여 인증시스템과 request 객체를 연결합니다.</p>
+
+<blockquote>
+  <p>These provide a  <a href="https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest.user">request.user</a>  attribute on every request which represents the current user. If the current user has not logged in, this attribute will be set to an instance of  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.AnonymousUser">AnonymousUser</a> , otherwise it will be an instance of  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a> .
+You can tell them apart with  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User.is_authenticated">is_authenticated</a> , like so:</p>
+</blockquote>
+
+<p>매 request요청마다 request.user에 현재 유저에 대한 정보가 담겨있습니다. 로그인이 되어있으면 User 인스턴스를, 로그인이 되어있지 않으면 AnonymousUser 인스턴스를 반환합니다.</p>
+
+<h3 id="how-to-log-a-user-in">How to log a user in</h3>
+<blockquote>
+  <p>To log a user in, from a view, use  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.login">login()</a> . It takes an  <a href="https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http.HttpRequest">HttpRequest</a>  object and a  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  object.  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.login">login()</a>  saves the user’s ID in the session, using Django’s session framework.
+Note that any data set during the anonymous session is retained in the session after a user logs in.
+This example shows how you might use both  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.authenticate">authenticate()</a>  and  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/default/#django.contrib.auth.login">login()</a> :</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">login</span>
+
+<span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'username'</span><span class="p">]</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'password'</span><span class="p">]</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+        <span class="c1"># Redirect to a success page.
+</span>        <span class="o">...</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Return an 'invalid login' error message.
+</span>        <span class="o">...</span>
+</code></pre></div></div>
+<p>POST를 통해 입력받은 username과 password를 사용하여 사용자 검증을 하고 통과한다면 이전에 받은 HttpRequest와 user정보를 login함수에 인자로 전달합니다.</p>
+
+<h1 id="django-user-model">DJango User Model</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/">Django user model</a></p>
+
+<h1 id="substituting-a-custom-user-model">Substituting a custom User model</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#substituting-a-custom-user-model">Substituting a custom User model</a></p>
+
+<blockquote>
+  <p>Some kinds of projects may have authentication requirements for which Django’s built-in User model is not always appropriate. For instance, on some sites it makes more sense to use an email address as your identification token instead of a username.</p>
+</blockquote>
+
+<p>장고에서 기본적으로 제공해주는 USER모델로 충분하지 않은 프로젝트들이 있습니다. 인증토큰으로 사용자이름대신 이메일 주소를 사용하는것 처럼 말입니다.</p>
+
+<blockquote>
+  <p>Django allows you to override the default user model by providing a value for the  <a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-AUTH_USER_MODEL">AUTH_USER_MODEL</a>  setting that references a custom model:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AUTH_USER_MODEL</span> <span class="o">=</span> <span class="err">‘</span><span class="n">myapp</span><span class="o">.</span><span class="n">MyUser</span><span class="err">’</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>This dotted pair describes the name of the Django app (which must be in your INSTALLED_APPS), and the name of the Django model that you wish to use as your user model.</p>
+</blockquote>
+
+<h1 id="unauthorized-and-forbidden-responses">Unauthorized and Forbidden responses</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/authentication/#unauthorized-and-forbidden-responses">Unauthorized and Forbidden responses</a></p>
+<blockquote>
+  <p>When an unauthenticated request is denied permission there are two different error codes that may be appropriate.</p>
+</blockquote>
+
+<p>인증되지 않은 요청에 대해서 다음 두가지 에러코드가 적절합니다.</p>
+
+<ul>
+  <li>HTTP 401 Unauthorized</li>
+  <li>HTTP 403 Permission Denied</li>
+</ul>
+
+<blockquote>
+  <p>HTTP 401 responses must always include a WWW-Authenticate header, that instructs the client how to authenticate. HTTP 403 responses do not include the WWW-Authenticate header.</p>
+</blockquote>
+
+<p>401 응답(해당 리소스에 유효한 인증 자격 증명이 없음)은 WWW-Authenticate 헤더가 있어야하고 클라이언트가 어떻게 인증해야하는지 알려줍니다. 403 응답(서버에 요청이 전달되었지만, 권한때문에 거절)에는 WWW-Authenticate 헤더가 포함되어있지 않습니다.</p>
+
+<blockquote>
+  <p>The kind of response that will be used depends on the authentication scheme. Although multiple authentication schemes may be in use, only one scheme may be used to determine the type of response. The first authentication class set on the view is used when determining the type of response.</p>
+</blockquote>
+
+<blockquote>
+  <p>Note that when a request may successfully authenticate, but still be denied permission to perform the request, in which case a 403 Permission Denied response will always be used, regardless of the authentication scheme.</p>
+</blockquote>
+
+<hr />
+<p>17 Oct 2019 7:59 PM</p>
+:ET

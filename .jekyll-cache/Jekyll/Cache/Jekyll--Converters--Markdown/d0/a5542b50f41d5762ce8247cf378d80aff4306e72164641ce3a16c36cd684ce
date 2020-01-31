@@ -1,0 +1,127 @@
+I"8<ul>
+  <li><a href="#%ed%95%a8%ec%88%98">함수</a></li>
+  <li><a href="#%ea%b0%80%eb%b3%80%ec%9d%b8%ec%9e%90">가변인자</a>
+    <ul>
+      <li><a href="#1-packing">1. packing</a></li>
+      <li><a href="#2-unpacking">2. unpacking</a></li>
+      <li><a href="#lambda%ed%95%a8%ec%88%98%ec%97%90-%eb%8c%80%ed%95%b4%ec%84%9c">lambda함수에 대해서</a>
+        <ul>
+          <li><a href="#%ea%b3%a0%ec%b0%a8%ed%95%a8%ec%88%98">고차함수</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><a href="https://www.askcompany.kr/">askcompany</a>에서 강의(<a href="https://www.askcompany.kr/vod/python/91/">함수 / 파이썬 차근차근 시작하기</a>)를 들으며 정리한 내용입니다.</p>
+
+<h1 id="함수">함수</h1>
+<p>가변인자, 익명함수
+1급객체와 1급함수/클래스
+고차함수</p>
+
+<h1 id="가변인자">가변인자</h1>
+
+<h2 id="1-packing">1. packing</h2>
+<p>파이썬 함수에서 여러개의 인자를 받을 때 
+몇개를 받을지는 모르지만 여러개를 받고싶을 때</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def func(*colors):
+    for color in colors:
+        print(color)
+</code></pre></div></div>
+<p>이렇게 해주면 됩니다. 
+ 0개도 가능합니다. 0개이상의 인자를 받고싶을때 사용하시면 됩니다.
+하지만 2개이상 받고싶다고 한다면</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def func(color1, color2, *colors):
+    for color in colors:
+        print(color)
+</code></pre></div></div>
+
+<p>이렇게 써주시면 됩니다.</p>
+
+<h2 id="2-unpacking">2. unpacking</h2>
+<p>반대로 이번엔 인자로 전달해주는 경우에 대해서 알아보겠습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>colors = [ 'red', 'green', 'blue' ]
+def func(colors): #이렇게하면 리스트가 인자로 들어가버린다. 
+	pass
+def func(*colors): #이렇게하면 unpacking되어 3개의 인자가 전달이 된다!
+	pass 
+</code></pre></div></div>
+
+<p>앞서 소개한 packing, unpacking에서는 '*'가 한개가 붙어있지만
+이번에는 '*'가 2개입니다. 
+이는 dict를 받습니다. 
+사용법은 위와 같습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def item(mac = 0, gram = 1, samsung = 2):
+    pass
+</code></pre></div></div>
+
+<p>또는</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict = { 'mac' : 0, 'gram' : 1, 'samsung' : 2}
+def item(**dict):
+    pass
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dict = { 'mac' : 0, 'gram' : 1, 'samsung' : 2}
+def item(dict):
+    pass
+</code></pre></div></div>
+<p>이거랑은 다릅니다.</p>
+
+<h2 id="lambda함수에-대해서">lambda함수에 대해서</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lambda x, y : x + y 
+</code></pre></div></div>
+
+<p>여기서 <strong>:</strong> (colon) 앞에 있는 x, y는 인자를 받을 때 작성해주는 부분이고, 콜론(:) 뒤에는 어떤 연산을 하고 반환할건지 나타냅니다 
+익숙한 코드로 표현해보면</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def add(x, y)
+	return x + y 
+</code></pre></div></div>
+<p>와 완전히 동일합니다.</p>
+
+<p>앞에 배운것을 응용해보면</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lambda *args : sum(args)
+</code></pre></div></div>
+
+<p>1급 객체/함수 
+여기서 1급은 우리가 중고등학교 때 배우는 1차 함수에서 1차와 비슷하게  생각하시면 될것같습니다. 
+이와같은 맥락에서 상대적인 개념으로 고차함수도 있습니다.</p>
+
+<p>먼저 1급 함수/클래스의 특징은</p>
+<ul>
+  <li>런타임에 생성가능</li>
+  <li>변수에 할당가능</li>
+  <li>인자나 리턴값으로 전달 가능
+입니다.</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fun_add = lambda x, y : x + y
+fun_sum = fun_add
+
+def make_func(fn, x, y):
+	return fn(x, y)
+
+def make_func((lambda x, y : x + y), x, y):
+	return fn(x, y)
+</code></pre></div></div>
+
+<h3 id="고차함수">고차함수</h3>
+<p>다른 함수를 생산하거나 사용하는 함수입니다. 
+다시말해서 함수를 인자로 받거나, 함수를 반환하는 함수라고도 할 수 있습니다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def base_calculator(base):
+	wrap = lambda x, y : x + y + base
+	return wrap
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>calc10 = base_calculator(10)
+calc10(1, 2)
+</code></pre></div></div>
+<p>결과는 13 입니다.</p>
+:ET

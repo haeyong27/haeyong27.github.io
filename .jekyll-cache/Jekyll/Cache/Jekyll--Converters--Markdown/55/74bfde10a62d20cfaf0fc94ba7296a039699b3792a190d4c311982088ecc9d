@@ -1,0 +1,146 @@
+I"�'<ul>
+  <li><a href="#vuejs-plugins">vuejs plugins</a>
+    <ul>
+      <li><a href="#vuejs">Vue.js</a>
+        <ul>
+          <li><a href="#introduction">Introduction</a></li>
+          <li><a href="#install-and-use">install and use</a></li>
+        </ul>
+      </li>
+      <li><a href="#nuxt-js">Nuxt js</a>
+        <ul>
+          <li><a href="#install-nuxtconfigjs">install (nuxt.config.js)</a></li>
+          <li><a href="#usage">Usage</a>
+            <ul>
+              <li><a href="#asyncdata">asyncData</a></li>
+              <li><a href="#methodscreatedmountedetc">methods/created/mounted/etc</a></li>
+              <li><a href="#extending-axios">Extending axios</a>
+                <ul>
+                  <li><a href="#fetch-style-requests">fetch style requests</a></li>
+                  <li><a href="#set-headers">set headers</a></li>
+                  <li><a href="#set-token">set token</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#helpers---axios-module">Helpers - Axios Module</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="vuejs-plugins">vuejs plugins</h1>
+
+<h2 id="vuejs">Vue.js</h2>
+<h3 id="introduction">Introduction</h3>
+
+<p><a href="https://vuejs.org/v2/guide/plugins.html">https://vuejs.org/v2/guide/plugins.html</a></p>
+<blockquote>
+  <p>Plugins usually add global-level functionality to Vue. There is no strictly defined scope for a plugin - there are typically several types of plugins:</p>
+</blockquote>
+
+<p>plugins는 전역적인 수준에서 기능되록 뷰에 등록됩니다.</p>
+
+<h3 id="install-and-use">install and use</h3>
+<p>Use plugins by calling the Vue.use() global method. This has to be done before you start your app by calling new Vue():</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// calls `MyPlugin.install(Vue)`</span>
+<span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">MyPlugin</span><span class="p">)</span>
+
+<span class="k">new</span> <span class="nx">Vue</span><span class="p">({</span>
+  <span class="c1">//… options</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>You can optionally pass in some options:</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Vue</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">MyPlugin</span><span class="p">,</span> <span class="p">{</span> <span class="na">someOption</span><span class="p">:</span> <span class="kc">true</span> <span class="p">})</span>
+</code></pre></div></div>
+<hr />
+
+<h2 id="nuxt-js">Nuxt js</h2>
+<p><a href="https://axios.nuxtjs.org/setup">Setup - Axios Module</a></p>
+
+<h3 id="install-nuxtconfigjs">install (nuxt.config.js)</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// nuxt.config.js</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">modules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="err">‘</span><span class="p">@</span><span class="nd">nuxtjs</span><span class="sr">/axios’</span><span class="err">,
+</span>  <span class="p">],</span>
+
+  <span class="na">axios</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// proxyHeaders: false</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="usage">Usage</h3>
+<h4 id="asyncdata">asyncData</h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="nx">asyncData</span><span class="p">({</span> <span class="nx">$axios</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">ip</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">$axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="err">‘</span><span class="nx">http</span><span class="p">:</span><span class="c1">//icanhazip.com’)</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="nx">ip</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="methodscreatedmountedetc">methods/created/mounted/etc</h4>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">methods</span><span class="p">:</span> <span class="p">{</span>
+	<span class="k">async</span> <span class="nx">fetchSomething</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kd">const</span> <span class="nx">ip</span> <span class="o">=</span> <span class="k">await</span> <span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://icanhazip.com</span><span class="dl">'</span><span class="p">)</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">ip</span> <span class="o">=</span> <span class="nx">ip</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h4 id="extending-axios">Extending axios</h4>
+<blockquote>
+  <p>If you need to customize axios by registering interceptors and changing global config, you have to create a nuxt plugin.</p>
+</blockquote>
+
+<p>커스터마이징이 필요하면  nuxt plugins를 사용</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// nuxt.config.js</span>
+<span class="p">{</span>
+	<span class="nl">modules</span><span class="p">:</span> <span class="p">[</span>
+		<span class="dl">'</span><span class="s1">@nuxtjs/axios</span><span class="dl">'</span><span class="p">,</span>
+	<span class="p">],</span>
+
+	<span class="nx">plugins</span><span class="p">:</span> <span class="p">[</span>
+		<span class="dl">'</span><span class="s1">~/plugins/axios</span><span class="dl">'</span>
+	<span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//plugins/axios.js</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="p">({</span> <span class="nx">$axios</span><span class="p">,</span> <span class="nx">redirect</span> <span class="p">})</span> <span class="p">{</span>
+	<span class="nx">$axios</span><span class="p">.</span><span class="nx">onRequest</span><span class="p">(</span><span class="nx">config</span> <span class="o">=&gt;</span> <span class="p">{</span>
+	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Making request to </span><span class="dl">'</span> <span class="o">+</span> <span class="nx">config</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span>
+<span class="p">})</span>
+
+<span class="nx">$axios</span><span class="p">.</span><span class="nx">onError</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
+	<span class="kd">const</span> <span class="nx">code</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">error</span><span class="p">.</span><span class="nx">response</span> <span class="o">&amp;&amp;</span> <span class="nx">error</span><span class="p">.</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span><span class="p">)</span>
+		<span class="k">if</span> <span class="p">(</span><span class="nx">code</span> <span class="o">===</span> <span class="mi">400</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">redirect</span><span class="p">(</span><span class="dl">'</span><span class="s1">/400</span><span class="dl">'</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>참고 : <a href="https://axios.nuxtjs.org/helpers">Helpers - Axios Module</a></p>
+
+<h5 id="fetch-style-requests">fetch style requests</h5>
+<p><a href="https://axios.nuxtjs.org/helpers#fetch-style-requests">Helpers - Axios Module</a></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Axios</span> <span class="nx">plugin</span> <span class="nx">also</span> <span class="nx">supports</span> <span class="nx">fetch</span> <span class="nx">style</span> <span class="nx">requests</span> <span class="kd">with</span> <span class="nx">$</span> <span class="nx">prefixed</span> <span class="nx">methods</span><span class="p">:</span>
+
+<span class="c1">// Normal usage with axios</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="nx">$axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">)).</span><span class="nx">data</span>
+
+<span class="c1">// Fetch Style</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">$axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="dl">'</span><span class="s1">...</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h5 id="set-headers">set headers</h5>
+<p><a href="https://axios.nuxtjs.org/helpers#setheader-name-value-scopes-common">Helpers - Axios Module</a></p>
+
+<h5 id="set-token">set token</h5>
+<p><a href="https://axios.nuxtjs.org/helpers#settoken-token-type-scopes-common">Helpers - Axios Module</a>
+—</p>
+:ET

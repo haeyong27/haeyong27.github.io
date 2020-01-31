@@ -1,0 +1,136 @@
+I"�&<ul>
+  <li><a href="#sassscss">SASS(SCSS)</a>
+    <ul>
+      <li><a href="#variable">variable</a></li>
+      <li><a href="#nested">nested</a>
+        <ul>
+          <li><a href="#%ec%b2%ab%eb%b2%88-%ec%a7%b8">첫번 째</a></li>
+          <li><a href="#%eb%91%90%eb%b2%88-%ec%a7%b8">두번 째</a></li>
+          <li><a href="#%ec%84%b8%eb%b2%88-%ec%a7%b8%ec%a4%91%eb%b3%b5%eb%90%98%eb%8a%94-%ec%bd%94%eb%93%9c">세번 째(중복되는 코드)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="sassscss">SASS(SCSS)</h1>
+<p><a href="https://sass-lang.com/">Sass: Syntactically Awesome Style Sheets</a>
+<a href="https://www.youtube.com/watch?v=Y_ThMpMyb4I&amp;list=PLjQHn5jzATks_cfXVS56j21rdX4FMdQaa&amp;index=9">Ch02-01  Sass (SCSS) - 변수 (Variables) - YouTube</a></p>
+
+<h2 id="variable">variable</h2>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$bg-color</span><span class="p">:</span> <span class="no">red</span><span class="p">;</span>
+
+
+<span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="no">blanchedalmond</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="nn">#box1</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="no">yellow</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$bg-color</span><span class="p">;</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="nested">nested</h2>
+<h3 id="첫번-째">첫번 째</h3>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"box1"</span><span class="nt">&gt;</span>
+        box1<span class="nt">&lt;br&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>button1<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"box2"</span><span class="nt">&gt;</span>
+            box2 <span class="nt">&lt;br&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>buttton2<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  
+  <span class="nn">#box1</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">40px</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="mh">#ffcccc</span><span class="p">;</span>
+    
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+    <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0px</span> <span class="m">3px</span> <span class="m">11px</span> <span class="m">0px</span> <span class="nf">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="mi">.75</span><span class="p">);</span>
+
+    <span class="k">&amp;</span> <span class="o">&gt;</span> <span class="nt">a</span> <span class="p">{</span>
+        <span class="nt">color</span><span class="nd">:blue</span><span class="p">;</span>
+        <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+
+        <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+            <span class="nl">color</span><span class="p">:</span> <span class="mh">#000</span><span class="p">;</span>
+            <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span>
+          <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+        <span class="nl">background-color</span><span class="p">:</span> <span class="mh">#ccc</span><span class="p">;</span>
+      <span class="p">}</span> 
+
+  <span class="p">}</span>
+  
+  <span class="nn">#box1</span> <span class="nn">#box2</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="mh">#e9e9e9</span><span class="p">;</span>
+    
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+    <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0px</span> <span class="m">3px</span> <span class="m">11px</span> <span class="m">0px</span> <span class="nf">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="mi">.75</span><span class="p">);</span>
+
+    <span class="k">&amp;</span> <span class="o">&gt;</span> <span class="nt">a</span> <span class="p">{</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="mh">#ee6633</span><span class="p">;</span>
+        <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+        
+        <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>
+            <span class="nl">color</span><span class="p">:</span> <span class="mh">#a22</span><span class="p">;</span>
+            <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span>
+          <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  
+
+</code></pre></div></div>
+
+<p>box2를 box1에 집어넣지 않은 이유는 가독성</p>
+
+<h3 id="두번-째">두번 째</h3>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"box1"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"box1-title"</span><span class="nt">&gt;</span>box1 title<span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>button1<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"box2"</span><span class="nt">&gt;</span>
+            box2 <span class="nt">&lt;br&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>buttton2<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+  <span class="nn">#box1</span> <span class="p">{</span>
+
+	  <span class="k">&amp;</span><span class="nt">-title</span> <span class="p">{</span>
+  	<span class="nl">font-style</span><span class="p">:</span> <span class="nb">italic</span><span class="p">;</span>
+	    <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">underline</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="세번-째중복되는-코드">세번 째(중복되는 코드)</h3>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">#box1</span> <span class="p">{</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+  <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+
+ <span class="k">&amp;</span><span class="nt">-title</span> <span class="p">{</span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">#box1</span> <span class="p">{</span>
+  <span class="k">&amp;</span><span class="o">,</span> <span class="k">&amp;</span><span class="nt">-title</span> <span class="p">{</span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

@@ -1,0 +1,62 @@
+I"4<ul>
+  <li><a href="#vuex-overview">Vuex overview</a></li>
+  <li><a href="#nuxt">nuxt</a></li>
+  <li><a href="#access-state-from-another-module-in-nuxt">access state from another module in Nuxt</a></li>
+</ul>
+
+<h1 id="vuex-overview">Vuex overview</h1>
+<p>참조 :  <a href="https://vuex.vuejs.org/">https://vuex.vuejs.org</a></p>
+<blockquote>
+  <p>Vuex is a <strong>state management pattern + library</strong> for Vue.js applications. It serves as a centralized store for all the components in an application, with rules ensuring that the state can only be mutated in a predictable fashion. It also integrates with Vue’s official  <a href="https://github.com/vuejs/vue-devtools">devtools extension</a>  to provide advanced features such as zero-config time-travel debugging and state snapshot export / import.</p>
+</blockquote>
+
+<p>Vuex는 state 관리 패턴이자 라이브러리 입니다. 모든 components에서 접근할 수 있도록 중앙에서 관리하는 store로서 기능을 수행합니다.  state값의 변경을 보장하는 규칙들이 있고 예상 가능한 방식으로 진행됩니다.</p>
+
+<h1 id="nuxt">nuxt</h1>
+<p>참조 : <a href="https://nuxtjs.org/guide/vuex-store/">Vuex Store - NuxtJS</a></p>
+
+<blockquote>
+  <p>Using a store to manage the state is important for every big application. That’s why Nuxt.js implements in its core.<a href="https://vuex.vuejs.org/en/">Vuex</a></p>
+</blockquote>
+
+<blockquote>
+  <p>To get started, simply export the state as a function, and the mutations and actions as objects in <code class="highlighter-rouge">store/index.js</code>:</p>
+</blockquote>
+
+<p>state는 함수로, mutations와 actions는 객체로 export한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">state</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+  <span class="na">counter</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">})</span>
+
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">mutations</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">increment</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">state</span><span class="p">.</span><span class="nx">counter</span><span class="o">++</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="access-state-from-another-module-in-nuxt">access state from another module in Nuxt</h1>
+<p><a href="https://medium.com/@cjustinobi/access-state-from-another-module-in-nuxt-ad56ad36eba9">Access State from Another Module in Nuxt - Justin - Medium</a></p>
+
+<blockquote>
+  <p>Having set your store using module option, the ideal place to access state from another module is in action handler. There we have access to the <code class="highlighter-rouge">rootState</code> property that is exposed by the context received in the function. It is worthy of note that rootState is only available in modules option.</p>
+</blockquote>
+
+<p>모듈 옵션을 사용해서 store를 세팅할 때 다른 모듈로부터 state에 접근하기 위한 좋은 곳은 action handler이다. 여기서 함수에서 받은 context에 의해 노출되는 <code class="highlighter-rouge">rootState</code> 속성에 접근할 수 있다.</p>
+
+<p>Assuming you want to access <code class="highlighter-rouge">state.users</code> in <code class="highlighter-rouge">users.js</code>  from  <code class="highlighter-rouge">admin.js</code></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//users.js</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">state</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+	<span class="na">users</span> <span class="p">:</span><span class="dl">''</span><span class="p">,</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//admin.js</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">actions</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="nx">setUsers</span><span class="p">({</span> <span class="nx">rootState</span> <span class="p">})</span> <span class="p">{</span>
+		<span class="nx">Let</span> <span class="nx">users</span> <span class="o">=</span> <span class="nx">rootState</span><span class="p">.</span><span class="nx">users</span><span class="p">.</span><span class="nx">users</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

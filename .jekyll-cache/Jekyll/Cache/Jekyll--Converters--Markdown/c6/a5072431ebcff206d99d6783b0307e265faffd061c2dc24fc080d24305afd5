@@ -1,0 +1,108 @@
+I"!<ul>
+  <li><a href="#%ea%b0%9d%ec%b2%b4-%ec%a7%80%ed%96%a5-%ed%94%84%eb%a1%9c%ea%b7%b8%eb%9e%98%eb%b0%8d-oop-object-oriented-programming">객체 지향 프로그래밍 (OOP: Object Oriented Programming)</a>
+    <ul>
+      <li><a href="#class">CLASS</a>
+        <ul>
+          <li><a href="#%ed%81%b4%eb%9e%98%ec%8a%a4-%eb%b3%80%ec%88%98%ec%99%80-%ec%9d%b8%ec%8a%a4%ed%84%b4%ec%8a%a4-%eb%b3%80%ec%88%98">클래스 변수와 인스턴스 변수</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="객체-지향-프로그래밍-oop-object-oriented-programming">객체 지향 프로그래밍 (OOP: Object Oriented Programming)</h1>
+
+<p><a href="https://www.askcompany.kr/">askcompany</a>에서 강의(<a href="https://www.askcompany.kr/vod/python/97/">클래스 / 파이썬 차근차근 시작하기</a>)를 들으며 정리한 내용입니다.</p>
+
+<p>함수는 데이터를 어떤 순서로, 어떤 방법으로 처리할지 구조화한것이지 데이터 자체를 구조화하지 못했습니다. 
+또한 큰 문제를 해결하기 위해서 큰 문제를 작게 쪼갠 뒤 문제를 해결하는것이 아니라 작은 문제를 해결하는 객체를 만들고 조합하여 큰 문제를 해결하는 bottom-up 방식입니다.</p>
+
+<p>객체와 인스턴스의 차이</p>
+
+<p>OOP의 주요특징</p>
+<ol>
+  <li>캡슐화 : 관련 특성/기능을 하나의 클래스에 결합</li>
+  <li>상속 : 재활용</li>
+  <li>다형성 : 다른 동작을 동일한 함수로 사용할 수 있도록 지원</li>
+</ol>
+
+<h3 id="class">CLASS</h3>
+
+<p><strong>사용자가 정의한 데이터 타입</strong>
+변수와 함수를 한데 모은것</p>
+
+<p>* tip 함수명은 snake_case, 클래스명은 CamelCase</p>
+
+<p>클래스가 호출이 될 때 클래스 내에 정의해준 __init__함수가 자동 호출되며, 호출시 넘겨진 모든 인자들이 이 함수로 전달됩니다.</p>
+
+<h4 id="클래스-변수와-인스턴스-변수">클래스 변수와 인스턴스 변수</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Dog</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add_tricks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hi</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span>
+
+<span class="n">dog1</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">()</span>
+<span class="n">dog1</span><span class="o">.</span><span class="n">add_tricks</span><span class="p">(</span><span class="s">'roll'</span><span class="p">)</span>
+
+<span class="n">dog2</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">()</span>
+<span class="n">dog2</span><span class="o">.</span><span class="n">add_tricks</span><span class="p">(</span><span class="s">'dead'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">dog1</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dog2</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">macui</span><span class="o">-</span><span class="n">MacBookPro</span><span class="p">:</span><span class="n">Desktop</span> <span class="n">haeyong</span><span class="err">$</span> <span class="n">python</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span> 
+<span class="p">[</span><span class="s">'roll'</span><span class="p">,</span> <span class="s">'dead'</span><span class="p">]</span>
+<span class="p">[</span><span class="s">'roll'</span><span class="p">,</span> <span class="s">'dead'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Dog</span><span class="p">:</span>
+    <span class="n">tricks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">add_tricks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trick</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trick</span><span class="p">)</span>
+
+
+<span class="n">dog1</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">()</span>
+<span class="n">dog1</span><span class="o">.</span><span class="n">add_tricks</span><span class="p">(</span><span class="s">'roll'</span><span class="p">)</span>
+
+<span class="n">dog2</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">()</span>
+<span class="n">dog2</span><span class="o">.</span><span class="n">add_tricks</span><span class="p">(</span><span class="s">'dead'</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">dog1</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dog2</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span>
+
+</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>macui-MacBookPro:Desktop haeyong<span class="nv">$ </span>python test.py 
+<span class="o">[</span><span class="s1">'roll'</span><span class="o">]</span>
+<span class="o">[</span><span class="s1">'dead'</span><span class="o">]</span>
+</code></pre></div></div>
+<p>두 코드의 차이를 보세요 
+클래스 변수와 인스턴스 변수의 차이입니다. 실행결과도 다릅니다.</p>
+
+<p>__init__안에 선언된 변수가 인스턴스 변수입니다. 객체, 인스턴스를 생성할 때 호출되는 함수이고 이 함수로 인자가 전달되므로 이 인스턴스 고유의 변수가 됩니다!.</p>
+
+<p>init밖에 선언하면 클레스 자체의 변수가 되기 때문에 어떤 객체를 사용하던 공통적으로 사용되는 변수가 됩니다. 그렇기 때문에 오류가 많이 발생할것같네요…(개인적인 생각)</p>
+
+<p>data hiding, name mangling
+데이터 은닉, 이름 장식</p>
+
+<p>파이썬에는 다른 언어에서 지원하는 public, private, protected같은것을 지원하지 않습니다. 이를 대신할 수 있는것이 mangling</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Animal</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">name</span> 
+</code></pre></div></div>
+
+<p>mangling은 self. 옆에 underscore 2개 (__)를 붙여줍니다.
+함수 내에서는 이름 그대로 접근해주시면 됩니다. (‘__name’)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">animal</span> <span class="o">=</span> <span class="n">Animal</span><span class="p">(</span><span class="s">'kong-e'</span><span class="p">)</span>
+<span class="n">animal</span><span class="o">.</span><span class="n">__name</span>
+</code></pre></div></div>
+
+<p>error뜹니다.
+접근하려면 animal._Animal__name 이렇게 접근해야합니다. (_클래스명변수명 형태로 접근해주시면 됩니다)</p>
+:ET

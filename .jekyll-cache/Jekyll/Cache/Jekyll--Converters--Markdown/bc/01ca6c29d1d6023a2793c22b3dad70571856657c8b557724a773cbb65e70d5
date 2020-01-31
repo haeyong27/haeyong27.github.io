@@ -1,0 +1,33 @@
+I"H<h1 id="nuxt-dynamic-routes">nuxt dynamic routes</h1>
+<p><a href="https://vueschool.io/lessons/nuxtjs-dynamic-routes?friend=nuxt">Dynamic Routes - A Vue.js Lesson From our Vue.js Course: Nuxt.js…</a></p>
+
+<h2 id="named-routes">Named Routes</h2>
+<p><a href="https://router.vuejs.org/guide/essentials/named-routes.html">Named Routes | Vue Router</a>
+Sometimes it is more convenient to identify a route with a name, especially when linking to a route or performing navigations. You can give a route a name in the routes options while creating the Router instance:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">VueRouter</span><span class="p">({</span>
+  <span class="na">routes</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">path</span><span class="p">:</span> <span class="err">‘</span><span class="o">/</span><span class="nx">user</span><span class="o">/</span><span class="p">:</span><span class="nx">userId</span><span class="err">’</span><span class="p">,</span>
+      <span class="na">name</span><span class="p">:</span> <span class="err">‘</span><span class="nx">user</span><span class="err">’</span><span class="p">,</span>
+      <span class="na">component</span><span class="p">:</span> <span class="nx">User</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<h3 id="to-link-to-a-named-route-you-can-pass-an-object-to-the">To link to a named route, you can pass an object to the</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">router</span><span class="o">-</span><span class="nx">link</span> <span class="p">:</span><span class="nx">to</span><span class="o">=</span><span class="err">“</span><span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="err">‘</span><span class="nx">user</span><span class="err">’</span><span class="p">,</span> <span class="nx">params</span><span class="p">:</span> <span class="p">{</span> <span class="nl">userId</span><span class="p">:</span> <span class="mi">123</span> <span class="p">}}</span><span class="err">”</span><span class="o">&gt;</span><span class="nx">User</span><span class="o">&lt;</span><span class="sr">/router-link</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<h3 id="this-is-the-exact-same-object-used-programatically-with">This is the exact same object used programatically with</h3>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="na">name</span><span class="p">:</span> <span class="err">‘</span><span class="nx">user</span><span class="err">’</span><span class="p">,</span> <span class="na">params</span><span class="p">:</span> <span class="p">{</span> <span class="na">userId</span><span class="p">:</span> <span class="mi">123</span> <span class="p">}})</span>
+</code></pre></div></div>
+
+<p>In both cases, the router will navigate to the path</p>
+
+<h2 id="nested-routes">nested routes</h2>
+<p>nuxt : <a href="https://nuxtjs.org/guide/routing#dynamic-nested-routes">Routing - NuxtJS</a></p>
+
+<p>nuxt-api : <a href="https://nuxtjs.org/api/components-nuxt-child/">API: The &lt;nuxt-child&gt; Component - NuxtJS</a></p>
+:ET

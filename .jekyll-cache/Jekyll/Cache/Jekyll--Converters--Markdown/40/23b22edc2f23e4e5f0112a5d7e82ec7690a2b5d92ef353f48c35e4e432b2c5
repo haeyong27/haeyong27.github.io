@@ -1,0 +1,85 @@
+I"�<ul>
+  <li><a href="#why-use-form-tag">Why use form tag</a>
+    <ul>
+      <li><a href="#stackoverflow">stackoverflow</a>
+        <ul>
+          <li><a href="#meaning-of-semantic">Meaning of semantic</a></li>
+        </ul>
+      </li>
+      <li><a href="#semantic-web">Semantic web</a>
+        <ul>
+          <li><a href="#%ec%9a%94%ec%95%bd">요약</a></li>
+          <li><a href="#%eb%82%b4-%ec%83%9d%ea%b0%81">내 생각</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="why-use-form-tag">Why use form tag</h1>
+<p>form태그 없이 충분히 데이터를 전송할 수 있는데 왜 쓰는지 궁금해서 검색해봤다.</p>
+
+<h2 id="stackoverflow">stackoverflow</h2>
+<p><a href="https://stackoverflow.com/questions/31066693/what-is-the-purpose-of-the-html-form-tag">javascript - What is the purpose of the html form tag - Stack Overflow</a></p>
+
+<blockquote>
+  <p>Realistically, you can pretty much do whatever you want with HTML5 markup, and most browsers will parse it. Last time I checked, WebKit / Blink even allows  <a href="http://codepen.io/Oka/full/pvqmXz/">pseudo-elements inside input elements</a> , which is a clear violation of the spec - Gecko not so much. However, doing whatever you like with your markup will undoubtably invalidate it as far as semantics are concerned.</p>
+</blockquote>
+
+<p>어떻게 하든지 상관은 없지만 semantics를 고려한다면 중요하다.</p>
+
+<h3 id="meaning-of-semantic">Meaning of semantic</h3>
+<p><a href="https://www.theclassroom.com/importance-semantics-10060884.html">The Importance of Semantics | The Classroom</a></p>
+
+<blockquote>
+  <p>Semantics is the study of the meaning of words and sentences. The discipline studies the interpretation of individual words, the construction of sentences and the literal interpretation of text the way it is written. Proper understanding of semantics relates to all academic disciplines in all languages, as a clear understanding allows students and teachers to communicate their messages clearly without fear of misinterpretation.</p>
+</blockquote>
+
+<p>semantics는 단어와 문장의 의미에 관한 연구이다. 이는 각 단어의 해석, 문장의 구조, 글자가 쓰여진 그대로의 해석에 대한 연구이다.</p>
+
+<h2 id="semantic-web">Semantic web</h2>
+<p><a href="https://www.itpro.co.uk/strategy/29606/what-is-the-semantic-web">what-is-the-semantic-web</a></p>
+
+<blockquote>
+  <p>The semantic web focuses on data rather than on documents, making it a much more immersive and detailed way of accessing information compared to the World Wide Web invented by Tim Berners Lee in the late 1980s.</p>
+</blockquote>
+
+<p>문서 그 자체보다는 데이터에 집중한것이 semantic web이다.</p>
+
+<blockquote>
+  <p>According to the World Wide Web Consortium ( <a href="https://www.w3.org/RDF/FAQ">W3C</a> ), the semantic web is “a common framework that allows data to be shared and reused across application, enterprise, and community boundaries”.</p>
+</blockquote>
+
+<p>semantic web은 어떤 어플리케이션이든 기업이든 커뮤니티든 상관없이 데이터가 공유되고 재사용이 쉽도록 하는 framework(particular set of rules, ideas, or beliefs which you use in order to deal with problems)이다.</p>
+
+<blockquote>
+  <p>The concept is to offer people the information they’re looking for at the time they need it. One of its key philosophies is that although the information presented on the internet is useful, it’s not always needed at every point.</p>
+</blockquote>
+
+<p>이런 생각은 사람들이 필요할 때 언제든 원하는 데이터를 제공할 수 있도록 해준다. 인터넷의 있는 정보들은 유용하지만 모든 정보들이 항상 필요한것은 아니기 때문이다.</p>
+
+<blockquote>
+  <p>The semantic web essentially allows for the connection of information using a network that can be easily read by machines – whether computers, IoT devices, mobile phones or other devices commonly used to access information.</p>
+</blockquote>
+
+<p>semantic web은 컴퓨터, IoT기기, 스마트폰 등 어떤 기기를 사용하더라도 네트워크를 통해 쉽게 정보를 연결할 수 있도록 해준다.</p>
+
+<blockquote>
+  <p>It’s built on the premise that data within web pages is useful, but not in all circumstances. One of the biggest hurdles of the internet as it stands is that the majority of data is created using forms and there’s no unified way of publishing data so anyone can manage it. The way data is presented using HTML can be difficult to handle and so the semantic web takes the idea that if this data can be re-purposed, it’s more useful to everyone.</p>
+</blockquote>
+
+<p>웹페이지에 있는 데이터는 유용하다는 전제를 깔고 간다. 하지만 모든 상황에서 그런것은 아니다. 가장 큰 문제는 데이터느느 form을 통해서 생성되고 이 데이터들은 통일된 관리 방법이나 관리자가 없다는 것이다. 표준없이 HTML을 구성한다면 데이터를 재사용하는데 어려움이 있을 것이다.그렇기 때문에 semantic web을 활용해 데이터가 재사용되기 쉽도록 했다.</p>
+
+<blockquote>
+  <p>The most important part of semantic web technologies is Resource Description Framework (RDF). This is a common framework for describing resources. It can represent metadata that can be parsed and processed by systems rather than just displayed to users.</p>
+</blockquote>
+
+<p>semantic web에서 가장 중요한 기술은 RDF이다. 이것은 리소스를 묘사하는 방식이다. 사용자에게 눈으로 보여지는 화면보다는 시스템에 의해 분석될 수 있는 메타데이터를 나타낸다.</p>
+
+<h4 id="요약">요약</h4>
+<p>방대한 양의 정보들이 machine에 의해 분석될 수 있도록 web을 구조화 하기 위한 프레임워크.</p>
+
+<h4 id="내-생각">내 생각</h4>
+<p>비즈니스의 시작은 마케팅이라고 생각한다. 요즘 시대의 최고의 마케팅은 검색엔진에서 상위에 노출되는것이다. 그 이유는 광고비용이 따로 들지 않고, 무엇보다 여러 사람들에게 노출이 될 확률이 높아지기 때문이다. 검색엔진에 잘 노출되기 위해서는 여러가지 방법이 있을것이다. 그 중 하나가 semantic web이다.</p>
+
+:ET

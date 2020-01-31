@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "S3 signed URL image upload(Django 서버 부하줄이기)"
+title:  "S3 signed URL image upload(Django 서버 부하줄이기) 2"
 date:   2020-01-31
 categories: AWS
 tag: [AWS]

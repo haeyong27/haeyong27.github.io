@@ -1,0 +1,115 @@
+I"1<ul>
+  <li><a href="#django-user-extend">django user extend</a>
+    <ul>
+      <li><a href="#extending-the-existing-user-model">Extending the existing User model</a></li>
+    </ul>
+  </li>
+  <li><a href="#substituting-a-custom-user-model">Substituting a custom User model</a>
+    <ul>
+      <li><a href="#using-a-custom-user-model-when-starting-a-project">Using a custom user model when starting a project</a></li>
+    </ul>
+  </li>
+  <li><a href="#referencing-theusermodel">Referencing theUsermodel</a></li>
+  <li><a href="#specifying-a-custom-user-model">Specifying a custom user model</a></li>
+</ul>
+
+<h1 id="django-user-extend">django user extend</h1>
+<h2 id="extending-the-existing-user-model">Extending the existing User model</h2>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#extending-the-existing-user-model">Customizing authentication in Django | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>There are two ways to extend the default  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  model without substituting your own model. If the changes you need are purely behavioral, and don’t require any change to what is stored in the database, you can create a  <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#proxy-models">proxy model</a>  based on  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a> . This allows for any of the features offered by proxy models including default ordering, custom managers, or custom model methods.
+If you wish to store information related to User, you can use a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.OneToOneField">OneToOneField</a>  to a model containing the fields for additional information. This one-to-one model is often called a profile model, as it might store non-auth related information about a site user. For example you might create an Employee model:</p>
+</blockquote>
+
+<p>User 모델을 확장하는 방법은 2가지가 있다. 저장 되어있는 데이터베이스를 변경할 필요 없이 함수같은 동작의 변경에만 관심있다면 proxy model이 적합하다. 정렬방법, custom manages, user model methods 등. 두번 째로 User모델과 관련된 추가적인 정보를 저장하고 싶다면 OneToOne필드가 좋다.  보통 profile model이라고 일컬어진다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
+
+<span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">department</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Assuming an existing Employee Fred Smith who has both a User and Employee model, you can access the related information using Django’s standard related model conventions:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">u</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s">'fsmith'</span><span class="p">)</span>
+<span class="n">freds_department</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">employee</span><span class="o">.</span><span class="n">department</span>
+</code></pre></div></div>
+
+<h1 id="substituting-a-custom-user-model">Substituting a custom User model</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#substituting-a-custom-user-model">Customizing authentication in Django | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>Some kinds of projects may have authentication requirements for which Django’s built-in  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  model is not always appropriate. For instance, on some sites it makes more sense to use an email address as your identification token instead of a username.
+Django allows you to override the default user model by providing a value for the  <a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-AUTH_USER_MODEL">AUTH_USER_MODEL</a>  setting that references a custom model:</p>
+</blockquote>
+
+<p>장고 빌트인 User모델이 적합하지 않은 경우들도 많다. user를 식별할 토큰으로 username 대신 email이 필요할수도 있다. 장고에서는 AUTH_USER_MODEL을 통해 override할 수 있다.</p>
+
+<p>settings.py 의 AUTH_USER_MODEL</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">AUTH_USER_MODEL</span> <span class="o">=</span> <span class="s">'myapp.MyUser'</span>
+</code></pre></div></div>
+<p>Default: ’auth.User’</p>
+
+<p>You cannot change the AUTH_USER_MODEL setting during the lifetime of a project (i.e. once you have made and migrated models that depend on it) without serious effort. It is intended to be set at the project start, and the model it refers to must be available in the first migration of the app that it lives in. See  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#auth-custom-user">Substituting a custom User model</a>  for more details.</p>
+
+<h2 id="using-a-custom-user-model-when-starting-a-project">Using a custom user model when starting a project</h2>
+<blockquote>
+  <p>If you’re starting a new project, it’s highly recommended to set up a custom user model, even if the default  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  model is sufficient for you. This model behaves identically to the default user model, but you’ll be able to customize it in the future if the need arises:</p>
+</blockquote>
+
+<p>지금 당장은 장고에서 기본으로 제공하는 USER모델로 충분하다 하더라도 아래와 같이 코드를 작성하는것이 좋다. 추후에 커스텀하기 편하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">AbstractUser</span>
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">AbstractUser</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div></div>
+
+<h1 id="referencing-theusermodel">Referencing theUsermodel</h1>
+<blockquote>
+  <p>If you reference  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  directly (for example, by referring to it in a foreign key), your code will not work in projects where the  <a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-AUTH_USER_MODEL">AUTH_USER_MODEL</a>  setting has been changed to a different user model.</p>
+</blockquote>
+
+<blockquote>
+  <p>Instead of referring to  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  directly, you should reference the user model using django.contrib.auth.get_user_model(). This method will return the currently active user model – the custom user model if one is specified, or  <a href="https://docs.djangoproject.com/en/2.2/ref/contrib/auth/#django.contrib.auth.models.User">User</a>  otherwise.</p>
+</blockquote>
+
+<p>USER모델을 직접 참조하기 보다는 ‘get_user_model()’ 함수를 이용해서 참조하는것이 좋다.</p>
+
+<blockquote>
+  <p>When you define a foreign key or many-to-many relations to the user model, you should specify the custom model using the  <a href="https://docs.djangoproject.com/en/2.2/ref/settings/#std:setting-AUTH_USER_MODEL">AUTH_USER_MODEL</a>  setting. For example:</p>
+</blockquote>
+
+<p>user 모델을 재정의 하거나 FK, MTM관계를 가지고 있는것으로 정의했다면 settings.py에 있는 AUTH_USER_MODEL값을 설정해줘야한다.  사용방법은 아래와 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="specifying-a-custom-user-model">Specifying a custom user model</h1>
+<blockquote>
+  <p>Keeping all user related information in one model removes the need for additional or more complex database queries to retrieve related models. On the other hand, it may be more suitable to store app-specific user information in a model that has a relation with your custom user model. That allows each app to specify its own user data requirements without potentially conflicting or breaking assumptions by other apps. It also means that you would keep your user model as simple as possible, focused on authentication, and following the minimum requirements Django expects custom user models to meet.</p>
+</blockquote>
+
+<p>하나의 모델에 유저 모델을 모두 유지한다면 추가적인 DB쿼리는 필요가 없다. 하지만 유저정보를 다른 관계에 있는 커스텀 유저모델에 저장하는것이 좋다. 다른앱들과 충돌없이 각 앱의 특성에 맞게 구체화할 수 있기 때문이다.</p>
+
+<blockquote>
+  <p>The easiest way to construct a compliant custom user model is to inherit from  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#django.contrib.auth.models.AbstractBaseUser">AbstractBaseUser</a> .  <a href="https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#django.contrib.auth.models.AbstractBaseUser">AbstractBaseUser</a>  provides the core implementation of a user model, including hashed passwords and tokenized password resets. You must then provide some key implementation details:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyUser</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">):</span>
+    <span class="n">identifier</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="o">...</span>
+    <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s">'identifier'</span>
+</code></pre></div></div>
+
+:ET

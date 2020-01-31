@@ -1,0 +1,17 @@
+I"�<h1 id="vuejs에서-발생한-error">vuejs에서 발생한 error</h1>
+
+<p>Django server에서 cors처리를 해줬음에도 cors에러가 발생했다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://127.0.0.1:8000/youtube/postviewset</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>url의 마지막에 ‘/‘가 없으면 아래와 같은 오류가 발생한다.</p>
+
+<p>Access to XMLHttpRequest at ‘http://127.0.0.1:8000/youtube/postviewset’ from origin ‘http://localhost:3000’ has been blocked by CORS policy: Response to preflight request doesn’t pass access control check: Redirect is not allowed for a preflight request.</p>
+
+<p>해결방법</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">this</span><span class="p">.</span><span class="nx">$axios</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://127.0.0.1:8000/youtube/postviewset/</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>URL의 마지막에 ‘/’를 붙여준다.</p>
+:ET

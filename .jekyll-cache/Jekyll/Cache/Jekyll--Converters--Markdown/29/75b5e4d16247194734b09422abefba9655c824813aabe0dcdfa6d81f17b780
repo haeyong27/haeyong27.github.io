@@ -1,0 +1,124 @@
+I"�\<h1 id="django-orm-many-to-many-field-create-save">django orm many to many field create, save</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/examples/many_to_many/">Many-to-many relationships | Django documentation | Django</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Publication</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">'title'</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+
+<span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">publications</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Publication</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">'headline'</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headline</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">p1</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">'The Python Journal'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p2</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">'Science News'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p2</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p3</span> <span class="o">=</span> <span class="n">Publication</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">'Science Weekly'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p3</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">'Django lets you build Web apps easily'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+<span class="o">...</span>
+<span class="nb">ValueError</span><span class="p">:</span> <span class="s">"&lt;Article: Django lets you build Web apps easily&gt;"</span> <span class="n">needs</span> <span class="n">to</span> <span class="n">have</span> <span class="n">a</span> <span class="n">value</span> <span class="k">for</span> <span class="n">field</span> <span class="s">"id"</span> <span class="n">before</span> <span class="n">this</span> <span class="n">many</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">many</span> <span class="n">relationship</span> <span class="n">can</span> <span class="n">be</span> <span class="n">used</span><span class="o">.</span>
+</code></pre></div></div>
+
+<p>many to many 필드는 .add()로 추가해야한다. 하지만 저장하기 전에는 add()를 할 수 없다. 시도하면 위와같은 에러가 뜬다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a1</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>이렇게 해야한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a2</span><span class="o">.</span><span class="n">publications</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>객체를 풀어서 넣어줘야한다. 리스트로 넣어주면 인식을 못한다. 같은걸 두번 넣어도 두번 저장되지 않는다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">p2</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">Article</span><span class="p">:</span> <span class="n">NASA</span> <span class="n">uses</span> <span class="n">Python</span><span class="o">&gt;</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">p1</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">Article</span><span class="p">:</span> <span class="n">Django</span> <span class="n">lets</span> <span class="n">you</span> <span class="n">build</span> <span class="n">Web</span> <span class="n">apps</span> <span class="n">easily</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Article</span><span class="p">:</span> <span class="n">NASA</span> <span class="n">uses</span> <span class="n">Python</span><span class="o">&gt;</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Publication</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">article_set</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">Article</span><span class="p">:</span> <span class="n">NASA</span> <span class="n">uses</span> <span class="n">Python</span><span class="o">&gt;</span><span class="p">]</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>article에는 여러개의 publications가 있다. 그래서 article instance에서 바로 publication.all() 하면 publications의 리스트를 가져올 수 있다. 반대로 publications에 속하는 article을 가져오려면 뒤에 _set을 붙여줘야한다. 예를들어서 p1.article_set.all() 이렇식으로 할 수 있다.  아래코드로 연습했다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">loremipsum</span> <span class="kn">import</span> <span class="n">get_paragraph</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">random</span> 
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Author</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Blog</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">Entry</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="k">print</span><span class="p">()</span>
+
+<span class="c1"># word_site = "http://svnweb.freebsd.org/csrg/share/dict/words?view=co&amp;content-type=text/plain"
+# response = requests.get(word_site)
+# words = response.content.splitlines()
+# words = [x.decode('utf-8') for x in words]
+</span>
+<span class="c1">#Authors 이름을 0~9로 10개의 객체 생성
+</span><span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">f</span><span class="s">'{i}@gmail.com'</span><span class="p">))</span>
+<span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+
+<span class="c1">#Blog 는 a, b, c, d로 4개의 객체 생성
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">]:</span>
+    <span class="n">Blog</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    
+<span class="c1">#many to many관계에 있는 entry의 author
+</span><span class="n">entry_authors</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">))])</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">)]</span>
+
+
+<span class="c1">#랜덤으로 만든 authors set의 list로 entry만듬 
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">blog</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">entry_authors</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">999</span><span class="p">)]])</span>
+    
+<span class="n">b</span> <span class="o">=</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">())</span>
+
+
+<span class="c1"># b.delete()
+# e.delete()
+# a.delete()
+</span></code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">Author</span><span class="p">:</span> <span class="mi">0</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Author</span><span class="p">:</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">]</span><span class="o">&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">entry_set</span><span class="o">.</span><span class="nb">all</span><span class="p">())</span>
+<span class="o">&lt;</span><span class="n">QuerySet</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2158</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2165</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2168</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2172</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2173</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2175</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2176</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2180</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2182</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2184</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2185</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2186</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2187</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2188</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2191</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2197</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2199</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2200</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2201</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Entry</span><span class="p">:</span> <span class="n">Entry</span> <span class="nb">object</span> <span class="p">(</span><span class="mi">2203</span><span class="p">)</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">'...(remaining elements truncated)...'</span><span class="p">]</span><span class="o">&gt;</span>
+</code></pre></div></div>
+:ET

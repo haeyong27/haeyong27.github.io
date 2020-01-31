@@ -1,0 +1,177 @@
+I"�<<ul>
+  <li><a href="#django-restframework-view">Django Restframework View</a></li>
+  <li><a href="#genericapiview">GenericAPIView</a>
+    <ul>
+      <li><a href="#attributes">Attributes</a></li>
+    </ul>
+  </li>
+  <li><a href="#mixins">Mixins</a></li>
+  <li><a href="#concrete-view-classes">Concrete View Classes</a></li>
+  <li><a href="#customizing-the-generic-views">Customizing the generic views</a>
+    <ul>
+      <li><a href="#creating-custom-mixins">Creating custom mixins</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="django-restframework-view">Django Restframework View</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/views/#class-based-views">Views - Django REST framework</a></p>
+
+<blockquote>
+  <p>REST framework provides an APIView class, which subclasses Django’s View class.
+APIView classes are different from regular View classes in the following ways:</p>
+</blockquote>
+
+<blockquote>
+  <ul>
+    <li>Requests passed to the handler methods will be REST framework’s Request instances, not Django’s HttpRequest instances.</li>
+    <li>Handler methods may return REST framework’s Response, instead of Django’s HttpResponse. The view will manage content negotiation and setting the correct renderer on the response.</li>
+    <li>Any APIException exceptions will be caught and mediated into appropriate responses.</li>
+    <li>Incoming requests will be authenticated and appropriate permission and/or throttle checks will be run before dispatching the request to the handler method.</li>
+  </ul>
+</blockquote>
+
+<ul>
+  <li>handler methods를 통과하는 요청은 Django의 HttpResquest가 아닌 DRF의 리퀘스트 인스턴스가 된다.</li>
+  <li>responser도 설정할 수 있다.</li>
+  <li>요청이 들어오면 이를 handler method로 전달하기 전에 적절한 권한을 부여하고 throttle(호출 횟수 제한) 등을 얼마나 줄지 체크합니다.</li>
+</ul>
+
+<blockquote>
+  <p>Using the APIView class is pretty much the same as using a regular View class, as usual, the incoming request is dispatched to an appropriate handler method such as .get() or .post(). Additionally, a number of attributes may be set on the class that control various aspects of the API policy.</p>
+</blockquote>
+
+<p>APIView는 리퀘스트를 받아 적절한 hadler method( .get() or .post() 등)에 전달하는 일반적인 view와 상당히 유사하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ListUsers</span><span class="p">(</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="s">"""
+    View to list all users in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """</span>
+    <span class="n">authentication_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">authentication</span><span class="o">.</span><span class="n">TokenAuthentication</span><span class="p">]</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="o">.</span><span class="n">IsAdminUser</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="s">"""
+        Return a list of all users.
+        """</span>
+        <span class="n">usernames</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">usernames</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Typically when using the generic views, you’ll override the view, and set several class attributes.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserList</span><span class="p">(</span><span class="n">generics</span><span class="o">.</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">UserSerializer</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAdminUser</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="c1"># Note the use of `get_queryset()` instead of `self.queryset`
+</span>        <span class="n">queryset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h1 id="genericapiview">GenericAPIView</h1>
+
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#genericapiview">GenericAPIView</a></p>
+<blockquote>
+  <p>This class extends REST framework’s APIView class, adding commonly required behavior for standard list and detail views.
+Each of the concrete generic views provided is built by combining GenericAPIView, with one or more mixin classes.</p>
+</blockquote>
+
+<h2 id="attributes">Attributes</h2>
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#attributes">Attributes</a>
+<strong>Basic settings</strong>:
+The following attributes control the basic view behavior.</p>
+<ul>
+  <li>queryset - The queryset that should be used for returning objects from this view. Typically, you must either set this attribute, or override the get_queryset() method. If you are overriding a view method, it is important that you call get_queryset() instead of accessing this property directly, as queryset will get evaluated once, and those results will be cached for all subsequent requests.</li>
+  <li>serializer_class - The serializer class that should be used for validating and deserializing input, and for serializing output. Typically, you must either set this attribute, or override the get_serializer_class() method.</li>
+  <li>lookup_field - The model field that should be used to for performing object lookup of individual model instances. Defaults to ‘pk’. Note that when using hyperlinked APIs you’ll need to ensure that <em>both</em> the API views <em>and</em> the serializer classes set the lookup fields if you need to use a custom value.</li>
+  <li>lookup_url_kwarg - The URL keyword argument that should be used for object lookup. The URL conf should include a keyword argument corresponding to this value. If unset this defaults to using the same value as lookup_field.</li>
+</ul>
+
+<p>queryset : 뷰로부터 객체를 반환한다. queryset 속성을 세팅하거나 get_queryset()를 오버라이드 하는 방법이 있다. 하지만 속성을 직접 접근해서 수정하기 보다는 get_queryset()을 호출해서 오버라이드 하는것이 좋다. 왜냐하면 그 이후에 이루어지는 요청을 캐싱할 수 있기때문이다.</p>
+
+<p>serializer_class : 유효성검사, input값을 디 시리얼라이징(유저로부터 입력받은것을 django가 더 이해하기 편한 형태로 변환하는 과정), output을 시리얼라이징한다.</p>
+
+<p>lookup_field : 모델 인스턴스에서 객체를 조회할 때 사용될 필드. 간단하게 말해서 PK(primary key). 기본값은 pk이다.</p>
+
+<p>이 외에도 <a href="https://www.django-rest-framework.org/api-guide/generic-views/#attributes">Pagination, Filtering</a> 
+ 등이 있다.</p>
+
+<h1 id="mixins">Mixins</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#mixins">Mixins</a></p>
+<blockquote>
+  <p>The mixin classes provide the actions that are used to provide the basic view behavior. Note that the mixin classes provide action methods rather than defining the handler methods, such as .get() and .post(), directly. This allows for more flexible composition of behavior.
+The mixin classes can be imported from rest_framework.mixins.
+mixin classes는 기본 view의 기능을 제공한다. .get() .post()와 같은 handler methods를 직접 정의하기 보다는 action method를 제공하기 때문에 좀더 유연하게 응답을 구성할 수 있다.</p>
+</blockquote>
+
+<h1 id="concrete-view-classes">Concrete View Classes</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#concrete-view-classes">Concrete View Classes</a></p>
+<blockquote>
+  <p>The following classes are the concrete generic views. If you’re using generic views this is normally the level you’ll be working at unless you need heavily customized behavior.
+The view classes can be imported from rest_framework.generics.</p>
+</blockquote>
+
+<p>동작을 커스텀할 경우가 아니라면 일반적으로 사용하게 될 클레스이다. 
+예를 들어</p>
+<ol>
+  <li>
+    <p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#createapiview">CreateAPIView</a>
+Used for <strong>create-only</strong> endpoints.
+Provides a post method handler.
+Extends:  <a href="https://www.django-rest-framework.org/api-guide/generic-views/#genericapiview">GenericAPIView</a> ,  <a href="https://www.django-rest-framework.org/api-guide/generic-views/#createmodelmixin">CreateModelMixin</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#listapiview">ListAPIView</a>
+Used for <strong>read-only</strong> endpoints to represent a <strong>collection of model instances</strong>.
+Provides a get method handler.
+Extends:  <a href="https://www.django-rest-framework.org/api-guide/generic-views/#genericapiview">GenericAPIView</a> ,  <a href="https://www.django-rest-framework.org/api-guide/generic-views/#listmodelmixin">ListModelMixin</a></p>
+  </li>
+</ol>
+
+<p>이외에도 다양하게 있다.</p>
+<ul>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#retrieveapiview">RetrieveAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#destroyapiview">DestroyAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#updateapiview">UpdateAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#listcreateapiview">ListCreateAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#retrieveupdateapiview">RetrieveUpdateAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#retrievedestroyapiview">RetrieveDestroyAPIView</a></li>
+  <li><a href="https://www.django-rest-framework.org/api-guide/generic-views/#retrieveupdatedestroyapiview">RetrieveUpdateDestroyAPIView</a></li>
+</ul>
+
+<h1 id="customizing-the-generic-views">Customizing the generic views</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#customizing-the-generic-views">Customizing the generic views</a>
+Often you’ll want to use the existing generic views, but use some slightly customized behavior. If you find yourself reusing some bit of customized behavior in multiple places, you might want to refactor the behavior into a common class that you can then just apply to any view or viewset as needed.</p>
+
+<h2 id="creating-custom-mixins">Creating custom mixins</h2>
+<p><a href="https://www.django-rest-framework.org/api-guide/generic-views/#creating-custom-mixins">Creating custom mixins</a>
+For example, if you need to lookup objects based on multiple fields in the URL conf, you could create a mixin class like the following:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MultipleFieldLookupMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s">"""
+    Apply this mixin to any view or viewset to get multiple field filtering
+    based on a `lookup_fields` attribute, instead of the default single field filtering.
+    """</span>
+    <span class="k">def</span> <span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_queryset</span><span class="p">()</span>             <span class="c1"># Get the base queryset
+</span>        <span class="n">queryset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_queryset</span><span class="p">(</span><span class="n">queryset</span><span class="p">)</span>  <span class="c1"># Apply any filter backends
+</span>        <span class="nb">filter</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup_fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">field</span><span class="p">]:</span> <span class="c1"># Ignore empty fields.
+</span>                <span class="nb">filter</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">queryset</span><span class="p">,</span> <span class="o">**</span><span class="nb">filter</span><span class="p">)</span>  <span class="c1"># Lookup the object
+</span>        <span class="bp">self</span><span class="o">.</span><span class="n">check_object_permissions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj</span>
+</code></pre></div></div>
+
+:ET

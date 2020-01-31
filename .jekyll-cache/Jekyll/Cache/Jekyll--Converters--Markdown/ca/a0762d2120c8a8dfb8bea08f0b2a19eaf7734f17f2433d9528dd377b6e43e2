@@ -1,0 +1,100 @@
+I"T8<p>클라이언트에서 장고 서버를 거쳐 S3에 이미지를 업로드하게되면 서버에 부하가 많이 걸릴것이라 판단하며 클라이언트에서 직접 S3로 올리고 그 이미지에 대한 메타정보만 장고의 데이터베이스에 저장하려한다.</p>
+
+<p><a href="https://www.thesmythgroup.com/in-development/scalable-user-uploads-with-amazon-s3/">Scalable User Uploads with Amazon S3 – The Smyth Group</a></p>
+
+<p><img src="https://www.thesmythgroup.com/wp-content/uploads/2019/07/architecture.png" alt="alt text" /></p>
+
+<p>The key point in the architecture is that uploads never pass through your service. Web or mobile clients simply need to get a signed upload URL from your service and upload files directly to that URL. The upload URL is signed so that unauthorized clients cannot write arbitrary files into your S3 bucket(s) and your service doesn’t have to deal with receiving, processing or storing the uploads.</p>
+
+<p>하지만 인증된 사용자만 업로드할 수 있게 해야하는데 클라이언트에서 처리하는 내용은 쉽게 노출될 수 있다. 이를 보완하기 위한것이 pre-signed URL이다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="err">‘url’:</span><span class="w"> </span><span class="err">‘https://haeyong-django-vuejs-s</span><span class="mi">3</span><span class="err">.s</span><span class="mi">3</span><span class="err">.amazonaws.com/‘</span><span class="p">,</span><span class="w">
+ </span><span class="err">‘fields’:</span><span class="w"> 
+</span><span class="p">{</span><span class="err">‘key’:</span><span class="w"> </span><span class="err">‘html.png’</span><span class="p">,</span><span class="w">
+  </span><span class="err">‘x-amz-algorithm’:</span><span class="w"> </span><span class="err">‘AWS</span><span class="mi">4</span><span class="err">-HMAC-SHA</span><span class="mi">256</span><span class="err">’</span><span class="p">,</span><span class="w">
+  </span><span class="err">‘x-amz-credential’:</span><span class="w"> </span><span class="err">‘AKIAU</span><span class="mi">3</span><span class="err">NMYFIM</span><span class="mi">3</span><span class="err">LCWVDTX/</span><span class="mi">20191211</span><span class="err">/ap-northeast</span><span class="mi">-2</span><span class="err">/s</span><span class="mi">3</span><span class="err">/aws</span><span class="mi">4</span><span class="err">_request’</span><span class="p">,</span><span class="w">
+  </span><span class="err">‘x-amz-date’:</span><span class="w"> </span><span class="err">‘</span><span class="mi">20191211</span><span class="err">T</span><span class="mi">171546</span><span class="err">Z’</span><span class="p">,</span><span class="w">
+  </span><span class="err">‘policy’:</span><span class="w"> </span><span class="err">‘eyJleHBpcmF</span><span class="mi">0</span><span class="err">aW</span><span class="mi">9</span><span class="err">uIjogIjIwMjAtMDEtMjJUMDk</span><span class="mi">6</span><span class="err">MTU</span><span class="mi">6</span><span class="err">NDZaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiaGFleW</span><span class="mi">9</span><span class="err">uZy</span><span class="mi">1</span><span class="err">kamFuZ</span><span class="mi">28</span><span class="err">tdnVlanMtczMifSwgeyJrZXkiOiAiMTIzNDUuanBnIn</span><span class="mi">0</span><span class="err">sIHsieC</span><span class="mi">1</span><span class="err">hbXotYWxnb</span><span class="mi">3</span><span class="err">JpdGhtIjogIkFXUzQtSE</span><span class="mi">1</span><span class="err">BQy</span><span class="mi">1</span><span class="err">TSEEyNTYifSwgeyJ</span><span class="mi">4</span><span class="err">LWFtei</span><span class="mi">1</span><span class="err">jcmVkZW</span><span class="mi">50</span><span class="err">aWFsIjogIkFLSUFVM</span><span class="mi">05</span><span class="err">NWUZJTTNMQ</span><span class="mi">1</span><span class="err">dWRFRYLzIwMTkxMjExL</span><span class="mi">2</span><span class="err">FwLW</span><span class="mi">5</span><span class="err">vcnRoZWFzdC</span><span class="mi">0</span><span class="err">yL</span><span class="mi">3</span><span class="err">MzL</span><span class="mi">2</span><span class="err">F</span><span class="mi">3</span><span class="err">czRfcmVxdWVzdCJ</span><span class="mi">9</span><span class="err">LCB</span><span class="mi">7</span><span class="err">IngtYW</span><span class="mi">16</span><span class="err">LWRhdGUiOiAiMjAxOTEyMTFUMTcxNTQ</span><span class="mi">2</span><span class="err">WiJ</span><span class="mi">9</span><span class="err">XX</span><span class="mi">0</span><span class="err">=‘</span><span class="p">,</span><span class="w">
+  </span><span class="err">‘x-amz-signature’:</span><span class="w"> </span><span class="err">‘</span><span class="mi">53</span><span class="err">c</span><span class="mi">371</span><span class="err">fc</span><span class="mi">4</span><span class="err">a</span><span class="mi">462</span><span class="err">f</span><span class="mi">2</span><span class="err">fce</span><span class="mi">4251</span><span class="err">ca</span><span class="mi">742</span><span class="err">d</span><span class="mi">62</span><span class="err">df</span><span class="mi">5</span><span class="err">c</span><span class="mi">06</span><span class="err">ef</span><span class="mi">437</span><span class="err">b</span><span class="mi">845</span><span class="err">baccb</span><span class="mi">4</span><span class="err">f</span><span class="mi">47</span><span class="err">b</span><span class="mi">67</span><span class="err">a</span><span class="mi">6</span><span class="err">d</span><span class="mi">4</span><span class="err">bdf’</span><span class="p">}}</span><span class="w">
+</span></code></pre></div></div>
+<p>이런 response를 받는다.pre-signed URL을 Django 서버에서 생성한뒤 response를 받아</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"Content-Type"</span> <span class="na">content=</span><span class="s">"text/html; charset=UTF-8"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="c">&lt;!-- Copy the 'url' value returned by S3Client.generate_presigned_post() --&gt;</span>
+    <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"https://haeyong-django-vuejs-s3.s3.amazonaws.com/"</span> <span class="na">method=</span><span class="s">"post"</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span><span class="nt">&gt;</span>
+      <span class="c">&lt;!-- Copy the 'fields' key:values returned by S3Client.generate_presigned_post() --&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"key"</span> <span class="na">value=</span><span class="s">"fromhtml.png"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"x-amz-algorithm"</span> <span class="na">value=</span><span class="s">"AWS4-HMAC-SHA256"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"x-amz-credential"</span> <span class="na">value=</span><span class="s">"AKIAU3NMYFIM3LCWVDTX/20191213/ap-northeast-2/s3/aws4_request"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"x-amz-date"</span> <span class="na">value=</span><span class="s">"20191213T071320Z"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"AWSAccessKeyId"</span> <span class="na">value=</span><span class="s">"AKIAU3NMYFIM3LCWVDTX"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"policy"</span> <span class="na">value=</span><span class="s">"eyJleHBpcmF0aW9uIjogIjIwMTktMTItMTdUMTE6MTM6MjBaIiwgImNvbmRpdGlvbnMiOiBbeyJidWNrZXQiOiAiaGFleW9uZy1kamFuZ28tdnVlanMtczMifSwgeyJrZXkiOiAiZnJvbWh0bWwucG5nIn0sIHsieC1hbXotYWxnb3JpdGhtIjogIkFXUzQtSE1BQy1TSEEyNTYifSwgeyJ4LWFtei1jcmVkZW50aWFsIjogIkFLSUFVM05NWUZJTTNMQ1dWRFRYLzIwMTkxMjEzL2FwLW5vcnRoZWFzdC0yL3MzL2F3czRfcmVxdWVzdCJ9LCB7IngtYW16LWRhdGUiOiAiMjAxOTEyMTNUMDcxMzIwWiJ9XX0="</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"x-amz-signature"</span> <span class="na">value=</span><span class="s">"4cd8084d6ae4a8dec0830e842c820fadea56fc55e397dce98b08b831ad119cee"</span> <span class="nt">/&gt;</span>
+    File:
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span>   <span class="na">name=</span><span class="s">"file"</span> <span class="nt">/&gt;</span> <span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">name=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Upload to Amazon S3"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/form&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p>이렇게 하니까 다음과 같은 오류가 났다.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Error&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">type=</span><span class="s">"text/css"</span> <span class="na">id=</span><span class="s">"dark-mode"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">""</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span> <span class="na">id=</span><span class="s">"dark-mode-custom-style"</span><span class="nt">/&gt;</span>
+<span class="o">&lt;</span><span class="nt">Code</span><span class="o">&gt;</span><span class="nt">InvalidRequest</span><span class="o">&lt;/</span><span class="nt">Code</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nt">Message</span><span class="o">&gt;</span>
+<span class="nt">The</span> <span class="nt">authorization</span> <span class="nt">mechanism</span> <span class="nt">you</span> <span class="nt">have</span> <span class="nt">provided</span> <span class="nt">is</span> <span class="nt">not</span> <span class="nt">supported</span><span class="o">.</span> <span class="nt">Please</span> <span class="nt">use</span> <span class="nt">AWS4-HMAC-SHA256</span><span class="o">.</span>
+<span class="o">&lt;/</span><span class="nt">Message</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nt">RequestId</span><span class="o">&gt;</span><span class="nt">1F41C19BB6E65F3D</span><span class="o">&lt;/</span><span class="nt">RequestId</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nt">HostId</span><span class="o">&gt;</span>
+<span class="nt">dT2dfVAQtEz97HGjOTGAqbgaEkaveDv6aIk</span><span class="o">+</span><span class="nt">Ho5sxD5ynygEZS8grYUBDxx3GcAIzzcyd</span><span class="o">/</span><span class="nt">enCes</span><span class="o">=</span>
+<span class="o">&lt;/</span><span class="nt">HostId</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nt">Error</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>먼저 요청이 제대로 되지 않는 이유에 대한 가설을 2개를 세웠다.</p>
+<ol>
+  <li>HTTP요청 형식이 잘못됐을 수 있다.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Status Code:400 Bad Request
+</code></pre></div>    </div>
+  </li>
+  <li>리턴된 pre-signed URL 값에 문제가 있을 수 있다.</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Message&gt;
+The authorization mechanism you have provided is not supported. Please use AWS4-HMAC-SHA256.
+&lt;/Message&gt;
+</code></pre></div></div>
+
+<h3 id="해결방법">해결방법</h3>
+<p>1번이 문제인 경우
+<a href="https://docs.aws.amazon.com/ko_kr/general/latest/gr/signing_aws_api_requests.html">AWS API 요청에 서명 - AWS 일반 참조</a>
+그래서 AWS API요청에 서명하는 방식을 찾아봤다. 
+HTTP로 AWS에 요청을 전송할 때 AWS에서 보낸 사람을 식별하기 위해 요청에 서명을 한다. HTTP요청을 수동으로 생성하는 경우에만 HTTP 요청에 서명하는 방법을 알 필요가 있다. AWS CLI나 SKD를 사용하면 액세스 키를 사용하면 요청에 자동으로 서명을 한다. 어차피 Javscript로 보낼것이기 때문에 AWS javascript SDK를 사용한다. 
+<a href="https://docs.aws.amazon.com/ko_kr/general/latest/gr/aws_sdk_cryptography.html">Amazon S3 클라이언트 측 암호화를 위한 AWS SDK 지원 - AWS 일반 참조</a></p>
+
+<p>2번이 문제인 경우
+pre-signed URL을 생성하는 과정을 다시 살펴본다. 
+<a href="https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/dev/UsingAWSSDK.html#UsingAWSSDK-sig2-deprecation">AWS SDK, CLI 및 Explorer 사용 - Amazon Simple Storage Service</a>
+AWS에서 API로 통신할 때 인증하는 과정에서 서명을 해야하는데 이 서명에도 버전이 있다. 2버젼과 4버젼이 있는데 2버젼은 사용이 중지되어가고 있다. 그렇기 때문에 4버전을 사용해야한다. 필자는 파이썬을 사용했으므로 Python-Boto SDK에 대한 문서를 찾아봤다.</p>
+
+<p>기본 config 파일인 boto 파일에 다음을 지정해야한다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[s3] use-sigv4 = True
+</code></pre></div></div>
+
+<p>하지만 이것도 HTML을 통한 HTTP에는 효과가 없다.</p>
+
+<p>결론 : 
+1번문제의 해결방법인 Javacript SDK를 사용하겠다.</p>
+
+<p><a href="https://aws-amplify.github.io/docs">Amplify JavaScript</a></p>
+
+<p><a href="https://aws-amplify.github.io/docs/js/start">Getting Started</a></p>
+
+:ET

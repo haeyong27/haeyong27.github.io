@@ -1,0 +1,53 @@
+I"E<ul>
+  <li><a href="#django-restframework-serializer">django restframework serializer</a>
+    <ul>
+      <li><a href="#dealing-with-nested-objects">Dealing with nested objects</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="django-restframework-serializer">django restframework serializer</h1>
+<p><a href="https://www.django-rest-framework.org/api-guide/serializers/">Serializers - Django REST framework</a></p>
+
+<blockquote>
+  <p>Serializers allow complex data such as querysets and model instances to be converted to native Python datatypes that can then be easily rendered into JSON, XML or other content types. Serializers also provide deserialization, allowing parsed data to be converted back into complex types, after first validating the incoming data.</p>
+</blockquote>
+
+<p>시리얼라이저는 장고의 쿼리셋이나 모델의 인스턴스와 같은 복잡한 데이터를 python의 데이터 타입으로 변환하여 json, XML과 같은 타입으로 변환을 도와줍니다. 유효성을 검사한 뒤, 반대 작업인 deserialze와 다시 복잡한 데이터 형태로 파싱을 도와주기도 합니다.</p>
+
+<blockquote>
+  <p>serialize, save, validation, partial update와 같은 기본적인 기능은 넘어간다.</p>
+</blockquote>
+
+<h2 id="dealing-with-nested-objects">Dealing with nested objects</h2>
+<p><a href="https://www.django-rest-framework.org/api-guide/serializers/#dealing-with-nested-objects">Dealing with nested objects</a> <br />
+개인적으로 사이드 프로젝트를 하면서 이 부분에 대한 지식이 없어 이 키워드를 찾는데 오래걸렸다. Foreign Key관계에 있는 모델을 만들 때 유용하게 쓰이는 기능이다. 예를들어서 Song이라는 모델과 Archive라는 노래를 담는 보관함이 있다고 하자.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Song</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+		<span class="n">title</span> <span class="o">=</span> <span class="n">PK</span>
+		<span class="n">singer</span> <span class="o">=</span> <span class="n">char</span>
+		<span class="n">created_at</span> <span class="o">=</span> <span class="n">date</span>
+		<span class="o">...</span>
+
+<span class="k">class</span> <span class="nc">Archive</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+		<span class="n">song</span> <span class="o">=</span> <span class="n">FK</span><span class="p">(</span><span class="n">Song</span><span class="p">)</span>
+		<span class="o">...</span>
+</code></pre></div></div>
+
+<p>Django models.py에 모델을 이렇게 정의했고, 시리얼라이저도 같은 구조였다. 나의 프로젝트의 클라이언트(Vue.js)에서 Archive를 읽어왔을 때 Archive.song을 읽어오면 song object의 string값만 전달 받아 Song의 필드들(title, singer, created_at 등)의 값을 읽어올 수 없었다. 이 문제는 Archive의 song 필드에 song serializer를 대입해주면 해결된다.</p>
+
+<p>아래는 내 경우와 다른경우이고, 공식문서에 있는 코드를 가져왔다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">CommentSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">()</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">created</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>The previous examples are fine for dealing with objects that only have simple datatypes, but sometimes we also need to be able to represent more complex objects, where some of the attributes of an object might not be simple datatypes such as strings, dates or integers.</p>
+</blockquote>
+
+:ET

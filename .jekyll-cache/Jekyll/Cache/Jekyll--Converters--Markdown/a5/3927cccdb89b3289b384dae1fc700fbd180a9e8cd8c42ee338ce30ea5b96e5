@@ -1,0 +1,134 @@
+I"[<<ul>
+  <li><a href="#how-django-knows-to-update-vs-insert">How Django knows to UPDATE vs. INSERT</a>
+    <ul>
+      <li><a href="#saving-objects">saving objects</a>
+        <ul>
+          <li><a href="#explicitly-specifying-auto-primary-key-values">Explicitly specifying auto-primary-key values</a></li>
+        </ul>
+      </li>
+      <li><a href="#updating-attributes-based-on-existing-fields">Updating attributes based on existing fields</a></li>
+      <li><a href="#specifying-which-fields-to-save">Specifying which fields to save</a></li>
+      <li><a href="#%ed%9a%a8%ec%9c%a8%ec%a0%81%ec%9d%b8-insert%ec%99%80-update%eb%a5%bc-%ec%9c%84%ed%95%9c-queryset-api-reference-%ed%9a%a8%ec%9c%a8%ec%a0%81%ec%9d%b8-insert%ec%99%80-update%eb%a5%bc-%ec%9c%84%ed%95%9c">효율적인 insert와 update를 위한 QuerySet API reference, 효율적인 insert와 update를 위한</a>
+        <ul>
+          <li><a href="#bulkcreate">bulk_create(),</a></li>
+          <li><a href="#bulkupdate">bulk_update()</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="how-django-knows-to-update-vs-insert">How Django knows to UPDATE vs. INSERT</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#how-django-knows-to-update-vs-insert">Model instance reference | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>You may have noticed Django database objects use the same save() method for creating and changing objects. Django abstracts the need to use INSERT or UPDATE SQL statements. Specifically, when you call save(), Django follows this algorithm:</p>
+</blockquote>
+
+<p>객체를 생성하거나 변경할 때 둘 다 save()함수를 사용한다. 장고는 insert와 update를 추상화 할 필요가 있다.</p>
+
+<blockquote>
+  <p>If the object’s primary key attribute is set to a value that evaluates to True (i.e., a value other than None or the empty string), Django executes an UPDATE.</p>
+</blockquote>
+
+<p>객체의 PK값이 true로 인식되면 update라고 판단한다.</p>
+
+<blockquote>
+  <p>If the object’s primary key attribute is <em>not</em> set or if the UPDATE didn’t update anything (e.g. if primary key is set to a value that doesn’t exist in the database), Django executes an INSERT.</p>
+</blockquote>
+
+<blockquote>
+  <p>The one gotcha here is that you should be careful not to specify a primary-key value explicitly when saving new objects, if you cannot guarantee the primary-key value is unused. For more on this nuance, see  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#explicitly-specifying-auto-primary-key-values">Explicitly specifying auto-primary-key values</a>  above and  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#forcing-an-insert-or-update">Forcing an INSERT or UPDATE</a>  below.</p>
+</blockquote>
+
+<p>여기서 중요한 점은 객체를 저장할 때 PK값을 명시적으로 하면 안된다는것이다. pk값이 사용되지 않는다는걸 보장할 수 없다면. -&gt; pk값이 데이터베이스에 없으면 insert, 이미 있는것이면 update</p>
+
+<blockquote>
+  <p>In Django 1.5 and earlier, Django did a SELECT when the primary key attribute was set. If the SELECT found a row, then Django did an UPDATE, otherwise it did an INSERT. The old algorithm results in one more query in the UPDATE case. There are some rare cases where the database doesn’t report that a row was updated even if the database contains a row for the object’s primary key value. An example is the PostgreSQL ON UPDATE trigger which returns NULL. In such cases it is possible to revert to the old algorithm by setting the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#django.db.models.Options.select_on_save">select_on_save</a>  option to True.</p>
+</blockquote>
+
+<h2 id="saving-objects">saving objects</h2>
+<p><a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#saving-objects">Model instance reference | Django documentation | Django</a></p>
+
+<h3 id="explicitly-specifying-auto-primary-key-values">Explicitly specifying auto-primary-key values</h3>
+<blockquote>
+  <p>If a model has an  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.AutoField">AutoField</a>  but you want to define a new object’s ID explicitly when saving, just define it explicitly before saving, rather than relying on the auto-assignment of the ID:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;</span> <span class="n">b3</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'Cheddar Talk'</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">'Thoughts on cheese.'</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">b3</span><span class="o">.</span><span class="nb">id</span>     <span class="c1"># Returns 3.
+</span><span class="o">&gt;&gt;</span> <span class="n">b3</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="n">b3</span><span class="o">.</span><span class="nb">id</span>     <span class="c1"># Returns 3.
+</span></code></pre></div>  </div>
+  <p>If you assign auto-primary-key values manually, make sure not to use an already-existing primary-key value! If you create a new object with an explicit primary-key value that already exists in the database, Django will assume you’re changing the existing record rather than creating a new one.</p>
+</blockquote>
+
+<p>authofield인 경우에도 명시적으로 id값을 할당하여 pk값을 지정할 수 있다. 주의해야 할 점은 데이터베이스에 이미 있는 pk값이면 수정하게되므로 조심해야한다.</p>
+
+<h2 id="updating-attributes-based-on-existing-fields">Updating attributes based on existing fields</h2>
+
+<blockquote>
+  <p>Sometimes you’ll need to perform a simple arithmetic task on a field, such as incrementing or decrementing the current value. The obvious way to achieve this is to do something like:</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;</span> <span class="n">product</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'Venezuelan Beaver Cheese'</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">product</span><span class="o">.</span><span class="n">number_sold</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;</span> <span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<p>The process can be made robust,  <a href="https://docs.djangoproject.com/en/2.2/ref/models/expressions/#avoiding-race-conditions-using-f">avoiding a race condition</a> , as well as slightly faster by expressing the update relative to the original field value, rather than as an explicit assignment of a new value. Django provides  <a href="https://docs.djangoproject.com/en/2.2/ref/models/expressions/#django.db.models.F">F expressions</a>  for performing this kind of relative update. Using  <a href="https://docs.djangoproject.com/en/2.2/ref/models/expressions/#django.db.models.F">F expressions</a> , the previous example is expressed as:</p>
+
+<h2 id="specifying-which-fields-to-save">Specifying which fields to save</h2>
+
+<blockquote>
+  <p>If save() is passed a list of field names in keyword argument update_fields, only the fields named in that list will be updated. This may be desirable if you want to update just one or a few fields on an object. There will be a slight performance benefit from preventing all of the model fields from being updated in the database. For example:
+원하는 필드만 골라서 업데이트할 수 있다. save()에 인자를 전달해서.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">product</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">'Name changed again'</span>
+<span class="n">product</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">update_fields</span><span class="o">=</span><span class="p">[</span><span class="s">'name'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="효율적인-insert와-update를-위한-queryset-api-reference-효율적인-insert와-update를-위한">효율적인 insert와 update를 위한 QuerySet API reference, 효율적인 insert와 update를 위한</h2>
+<p><a href="https://docs.djangoproject.com/en/dev/ref/models/querysets/#queryset-api-reference">QuerySet API reference | Django documentation | Django</a></p>
+
+<h3 id="bulk_create">bulk_create(),</h3>
+<p><a href="https://docs.djangoproject.com/en/dev/ref/models/querysets/#bulk-create">QuerySet API reference | Django documentation | Django</a></p>
+<blockquote>
+  <p>This method inserts the provided list of objects into the database in an efficient manner (generally only 1 query, no matter how many objects there are):
+객체 리스트를 한번에 저장하는 효율적인 방법</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">([</span>
+<span class="o">...</span>     <span class="n">Entry</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">'This is a test'</span><span class="p">),</span>
+<span class="o">...</span>     <span class="n">Entry</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">'This is only a test'</span><span class="p">),</span>
+<span class="o">...</span> <span class="p">])</span>
+</code></pre></div></div>
+
+<h3 id="bulk_update">bulk_update()</h3>
+<p><a href="https://docs.djangoproject.com/en/dev/ref/models/querysets/#bulk-update">QuerySet API reference | Django documentation | Django</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">objs</span> <span class="o">=</span> <span class="p">[</span>
+<span class="o">...</span>    <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">'Entry 1'</span><span class="p">),</span>
+<span class="o">...</span>    <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">headline</span><span class="o">=</span><span class="s">'Entry 2'</span><span class="p">),</span>
+<span class="o">...</span> <span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">headline</span> <span class="o">=</span> <span class="s">'This is entry 1'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">objs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">headline</span> <span class="o">=</span> <span class="s">'This is entry 2'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_update</span><span class="p">(</span><span class="n">objs</span><span class="p">,</span> <span class="p">[</span><span class="s">'headline'</span><span class="p">])</span>	
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">f</span><span class="s">'{i}@gmail.com'</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>    
+<span class="k">print</span><span class="p">(</span><span class="s">'무식한 방법'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="s">'초'</span><span class="p">)</span>
+<span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">all</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Author</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">f</span><span class="s">'{i}@gmail.com'</span><span class="p">))</span>
+<span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">bulk_create</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'똑똑한 방법'</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span><span class="p">,</span> <span class="s">'초'</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="err">무식한</span> <span class="err">방법</span> <span class="mf">25.767067193984985</span> <span class="err">초</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="err">똑똑한</span> <span class="err">방법</span> <span class="mf">0.6707980632781982</span> <span class="err">초</span>
+</code></pre></div></div>
+
+:ET

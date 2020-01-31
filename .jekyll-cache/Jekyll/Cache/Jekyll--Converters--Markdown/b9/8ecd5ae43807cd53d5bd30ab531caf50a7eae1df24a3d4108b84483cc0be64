@@ -1,0 +1,113 @@
+I"D-<ul>
+  <li><a href="#django-orm-retrieve">Django ORM (retrieve)</a>
+    <ul>
+      <li><a href="#retrieving-specific-objects-with-filters">Retrieving specific objects with filters</a></li>
+      <li><a href="#lookups-that-span-relationships">Lookups that span relationships</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="django-orm-retrieve">Django ORM (retrieve)</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#retrieving-objects">Making queries | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>To retrieve objects from your database, construct a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  via a  <a href="https://docs.djangoproject.com/en/2.2/topics/db/managers/#django.db.models.Manager">Manager</a>  on your model class.
+디비에서 객체를 가져오려면 모델의 manager를 통해 queryset을 만들면 된다.</p>
+</blockquote>
+
+<blockquote>
+  <p>A  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  represents a collection of objects from your database. It can have zero, one or many <em>filters</em>. Filters narrow down the query results based on the given parameters. In SQL terms, a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  equates to a SELECT statement, and a filter is a limiting clause such as WHERE or LIMIT.</p>
+</blockquote>
+
+<p>데이터베이스에서 가져온 객체들의 모음을 표현하는것이 queryset이다. 0개부터 여러개의 filter를 가질 수 있다. 필터는 주어진 파라미터들을 통해 쿼리 결과를 좁혀나간다. queryset은 selete이고, 필터는 where, limit절이라고 생각하면된다.</p>
+
+<blockquote>
+  <p>You get a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  by using your model’s  <a href="https://docs.djangoproject.com/en/2.2/topics/db/managers/#django.db.models.Manager">Manager</a> . Each model has at least one  <a href="https://docs.djangoproject.com/en/2.2/topics/db/managers/#django.db.models.Manager">Manager</a> , and it’s called  <a href="https://docs.djangoproject.com/en/2.2/ref/models/class/#django.db.models.Model.objects">objects</a>  by default. Access it directly via the model class, like so:</p>
+</blockquote>
+
+<p>각 모델마나 하나 이상의 manager를 가지고 있다. 이름은 기본값으로 objects이다. 모델클레스를 통해 바로 접근할 수 있다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span>
+<span class="o">&lt;</span><span class="n">django</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">Manager</span> <span class="nb">object</span> <span class="n">at</span> <span class="o">...&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'Foo'</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">'Bar'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">objects</span>
+<span class="n">Traceback</span><span class="p">:</span>
+    <span class="o">...</span>
+<span class="nb">AttributeError</span><span class="p">:</span> <span class="s">"Manager isn't accessible via Blog instances."</span>
+</code></pre></div></div>
+<blockquote>
+  <p>Managers are accessible only via model classes, rather than from model instances, to enforce a separation between “table-level” operations and “record-level” operations.
+managers는 모델 인스턴스가 아닌 모델 클래스를 통해서만 접근할 수 있다. tabel level의 수행과 record level의 수행을 구분하기 위함이다.</p>
+</blockquote>
+
+<h2 id="retrieving-specific-objects-with-filters">Retrieving specific objects with filters</h2>
+<blockquote>
+  <p>The  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  returned by  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.all">all()</a>  describes all objects in the database table. Usually, though, you’ll need to select only a subset of the complete set of objects.
+To create such a subset, you refine the initial  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a> , adding filter conditions. The two most common ways to refine a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  are:</p>
+</blockquote>
+
+<blockquote>
+  <p>filter(kwargs)
+Returns a new  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  containing objects that match the given lookup parameters.</p>
+</blockquote>
+
+<blockquote>
+  <p>exclude(kwargs)
+Returns a new  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  containing objects that do <em>not</em> match the given lookup parameters.</p>
+</blockquote>
+
+<blockquote>
+  <p>The lookup parameters (kwargs in the above function definitions) should be in the format described in  <a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#field-lookups">Field lookups</a>  below.
+loopup 파라미터는 다음과 같은 형식이어야 합니다.</p>
+</blockquote>
+
+<blockquote>
+  <p>Field lookups are how you specify the meat of an SQL WHERE clause. They’re specified as keyword arguments to the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet">QuerySet</a>  methods  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.filter">filter()</a> ,  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.exclude">exclude()</a>  and  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.get">get()</a> .</p>
+</blockquote>
+
+<p>field lookups는 sql where를 어떻게 구체화 해야하는지에 대한 표준이다. queryset의 filter, exclude, get과 같은 함수에 키워드 인자로 구체화한다.</p>
+
+<blockquote>
+  <p>Basic lookups keyword arguments take the form field__lookuptype=value. (That’s a double-underscore). For example:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">pub_date__lte</span><span class="o">=</span><span class="s">'2006-01-01'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>translates (roughly) into the following SQL<br />
+SELECT * FROM blog_entry WHERE pub_date &lt;= ‘2006-01-01’;</p>
+
+<blockquote>
+  <p>The field specified in a lookup has to be the name of a model field. There’s one exception though, in case of a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">ForeignKey</a>  you can specify the field name suffixed with _id. In this case, the value parameter is expected to contain the raw value of the foreign model’s primary key. For example:
+룩업에 명시된 필드는 모델 필드의 이름이어야 한다. 하나의 예외가 있는게 FK인 경우이다. 접두사로 ‘_id’를 붙인다. 이런 경우에는 외래 모델의 프라이머리키의 raw값을 기대한다.</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">blog_id</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div>  </div>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">id__exact</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>  <span class="c1"># Explicit form
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>         <span class="c1"># __exact is implied
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name__iexact</span><span class="o">=</span><span class="s">"beatles blog"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>iexact : A case-insensitive match. So, the query<br />
+Would match a Blog titled ”Beatles Blog”, ”beatles blog”, or even ”BeAtlES blOG”.</p>
+
+<h2 id="lookups-that-span-relationships">Lookups that span relationships</h2>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#lookups-that-span-relationships">Making queries | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>Django offers a powerful and intuitive way to “follow” relationships in lookups, taking care of the SQL JOINs for you automatically, behind the scenes. To span a relationship, just use the field name of related fields across models, separated by double underscores, until you get to the field you want.</p>
+</blockquote>
+
+<p>장고에서는 SQL의 join기능인 관계된 모델들의 필드를 추적하는 강력하고 직관적인 방법이 있다.</p>
+
+<blockquote>
+  <p>This example retrieves all Entry objects with a Blog whose name is ’Beatles Blog’:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">blog__name</span><span class="o">=</span><span class="s">'Beatles Blog'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>If you are filtering across multiple relationships and one of the intermediate models doesn’t have a value that meets the filter condition, Django will treat it as if there is an empty (all values are NULL), but valid, object there. All this means is that no error will be raised. For example, in this filter:</p>
+</blockquote>
+
+<p>여러 관계들을 거쳐가며 필터링한 후 결과가 비어있다면 null값을 반환한다. 하지만 유효한 값이다. 에러를 발생시키지 않는다.</p>
+:ET

@@ -1,0 +1,84 @@
+I"�<ul>
+  <li><a href="#sassscss---mixin-extend-import">SASS(SCSS) - mixin, extend, import</a>
+    <ul>
+      <li><a href="#mixin">mixin</a></li>
+      <li><a href="#extend">extend</a></li>
+      <li><a href="#import">import</a></li>
+      <li><a href="#if">if</a>
+        <h1 id="sassscss---mixin-extend-import">SASS(SCSS) - mixin, extend, import</h1>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="mixin">mixin</h2>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@mixin</span> <span class="nf">fontSizeBgColor</span><span class="p">(</span><span class="nv">$size</span><span class="o">,</span> <span class="nv">$color</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nl">font-size</span><span class="p">:</span> <span class="nv">$size</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$color</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nn">#box1</span> <span class="p">{</span>
+    <span class="c1">// font-size: 40px;</span>
+    <span class="c1">// background-color: #ffcccc;</span>
+    <span class="k">@include</span> <span class="nd">fontSizeBgColor</span><span class="p">(</span><span class="m">40px</span><span class="o">,</span> <span class="mh">#ffcccc</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="extend">extend</h2>
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">%boxshape</span> <span class="p">{</span> <span class="c1">//#뒤에 붙이고 싶은 이름 </span>
+    <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+    <span class="nl">border</span><span class="p">:</span> <span class="m">3px</span> <span class="nb">solid</span> <span class="mh">#f00</span><span class="p">;</span>
+    <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0px</span> <span class="m">3px</span> <span class="m">11px</span> <span class="m">0px</span> <span class="nf">rgba</span><span class="p">(</span><span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="o">,</span> <span class="m">0</span><span class="mi">.75</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nn">#box1</span> <span class="p">{</span>
+	<span class="k">@extend</span> <span class="nn">#boxshape</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="import">import</h2>
+<p>_filename -&gt; compile안됨 
+underscore로 시작하는 파일은 컴파일이 안됨.</p>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// _mixins.scss</span>
+
+<span class="k">@import</span> <span class="err">“</span><span class="n">mixins</span><span class="err">”</span> <span class="o">//</span> <span class="err">불러들일</span> <span class="err">때는</span> <span class="s2">"_"</span><span class="err">를</span> <span class="err">안쓴다</span><span class="o">.</span> 
+</code></pre></div></div>
+
+<h2 id="if">if</h2>
+
+<div class="language-scss highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span> <span class="p">{</span>
+    <span class="nl">margin</span><span class="p">:</span> <span class="m">50px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@mixin</span> <span class="nf">textandbgcolor</span><span class="p">(</span><span class="nv">$textcolor</span><span class="o">,</span> <span class="nv">$bgcolor</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nl">color</span><span class="p">:</span> <span class="nv">$textcolor</span><span class="p">;</span>
+    <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$bgcolor</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@mixin</span> <span class="nf">theme</span><span class="p">(</span><span class="nv">$mood</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">@if</span> <span class="nv">$mood</span> <span class="o">==</span> <span class="s1">'light'</span> <span class="p">{</span>
+        <span class="k">@include</span> <span class="nd">textandbgcolor</span><span class="p">(</span><span class="mh">#333333</span><span class="o">,</span> <span class="mh">#ffff00</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">@else</span> <span class="n">if</span> <span class="nv">$mood</span> <span class="o">==</span> <span class="s1">'dark'</span> <span class="p">{</span>
+        <span class="k">@include</span> <span class="nd">textandbgcolor</span><span class="p">(</span><span class="mh">#fff</span><span class="o">,</span> <span class="mh">#000000</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">@else</span> <span class="p">{</span>
+        <span class="k">@include</span> <span class="nd">textandbgcolor</span><span class="p">(</span><span class="mh">#ff0000</span><span class="o">,</span> <span class="mh">#aaa</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nn">#box1</span> <span class="p">{</span>
+    <span class="k">@include</span> <span class="nd">theme</span><span class="p">(</span><span class="s1">'light'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nn">#box2</span> <span class="p">{</span>
+    <span class="k">@include</span> <span class="nd">theme</span><span class="p">(</span><span class="s1">'dark'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nn">#box3</span> <span class="p">{</span>
+    <span class="k">@include</span> <span class="nd">theme</span><span class="p">(</span><span class="s1">'light2'</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

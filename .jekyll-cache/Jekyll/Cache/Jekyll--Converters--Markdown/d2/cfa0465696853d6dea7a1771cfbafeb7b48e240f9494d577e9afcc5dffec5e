@@ -1,0 +1,36 @@
+I"�<ul>
+  <li><a href="#django-documentation">DJango documentation</a></li>
+  <li><a href="#serialization-performance">Serialization Performance</a></li>
+  <li><a href="#optimization">Optimization</a></li>
+</ul>
+
+<h1 id="django-documentation">DJango documentation</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/performance/">Performance and optimization | Django documentation | Django</a></p>
+
+<h1 id="serialization-performance">Serialization Performance</h1>
+<p><a href="https://hakibenita.com/django-rest-framework-slow">Improve Serialization Performance in Django Rest Framework | Haki Benita</a></p>
+
+<p>summary :</p>
+<ul>
+  <li>UserModelSerializer : 12.818s</li>
+  <li>UserReadOnlyModelSerializer : 7.407s</li>
+  <li>UserSerializer : 2.101s</li>
+  <li>UserReadOnlySerializer : 2.254s</li>
+  <li>serialize_user : 0.034s</li>
+</ul>
+
+<blockquote>
+  <ol>
+    <li>serializer is faster than modelserializer.</li>
+    <li>marking the fields as readonly didn’t make a significant difference compared to the “regular” serializer.</li>
+  </ol>
+</blockquote>
+
+<p>시리얼라이저는 모델 시리얼 라이저보다 빠르고, Readonly는 성능에 큰 영향을 주지 않는다.</p>
+
+<h1 id="optimization">Optimization</h1>
+<p><a href="https://medium.com/@ryleysill93/basic-performance-optimization-in-django-ebd19089a33f">Basic Performance Optimization in Django</a></p>
+
+<hr />
+<p>19 Oct 2019 4:35 PM</p>
+:ET

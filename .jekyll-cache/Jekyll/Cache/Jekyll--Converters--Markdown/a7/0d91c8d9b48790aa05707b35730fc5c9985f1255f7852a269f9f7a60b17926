@@ -1,0 +1,184 @@
+I"�R<ul>
+  <li><a href="#django-orm-create-save">Django ORM (create, save)</a>
+    <ul>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#making-queries">Making Queries</a>
+        <ul>
+          <li><a href="#creating-objects">Creating objects</a>
+            <ul>
+              <li><a href="#overriding-predefined-model-methods">Overriding predefined model methods</a></li>
+              <li><a href="#overridden-model-methods-are-not-called-on-bulk-operations">Overridden model methods are not called on bulk operations</a></li>
+            </ul>
+          </li>
+          <li><a href="#saving-changes-to-objects">Saving changes to objects</a></li>
+          <li><a href="#saving-foreignkey-and-manytomanyfield-fields">Saving ForeignKey and ManyToManyField fields</a>
+            <ul>
+              <li><a href="#foreign-key">Foreign Key</a></li>
+              <li><a href="#manytomany">ManyToMany</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="django-orm-create-save">Django ORM (create, save)</h1>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/">Models and databases | Django documentation | Django</a></p>
+<blockquote>
+  <p>A model is the single, definitive source of data about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.</p>
+</blockquote>
+
+<p>모델은 데이터의 필드와 동작을 가지고있다. 모델은 데이터 베이스의 각 테이블과 매칭된다.</p>
+
+<h2 id="model">Model</h2>
+<h2 id="making-queries">Making Queries</h2>
+<blockquote>
+  <p>Once you’ve created your  <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/">data models</a> , Django automatically gives you a database-abstraction API that lets you create, retrieve, update and delete objects. This document explains how to use this API. Refer to the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/">data model reference</a>  for full details of all the various model lookup options.</p>
+</blockquote>
+
+<p>일단 데이터 모델을 생성하면 장고에서 자동으로 데이터베이스 추상화 API를 제공한다. 이는 객체를 생성, 조회, 업데이트, 삭제를 할 수 있다.</p>
+
+<blockquote>
+  <p>Throughout this guide (and in the reference), we’ll refer to the following models, which comprise a Weblog application:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Blog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Author</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Entry</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">blog</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Blog</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="n">headline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">body_text</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">pub_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">mod_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">()</span>
+    <span class="n">authors</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Author</span><span class="p">)</span>
+    <span class="n">number_of_comments</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">number_of_pingbacks</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="n">rating</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">headline</span>
+
+</code></pre></div></div>
+
+<h3 id="creating-objects">Creating objects</h3>
+<blockquote>
+  <p>To represent database-table data in Python objects, Django uses an intuitive system: A model class represents a database table, and an instance of that class represents a particular record in the database table.
+To create an object, instantiate it using keyword arguments to the model class, then call  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a>  to save it to the database.
+Assuming models live in a file <strong>mysite/blog/models.py</strong>, here’s an example:</p>
+</blockquote>
+
+<p>키워드 인자를 사용하여 인스턴스화한 뒤 save()를 호출하여 디비에 저장한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">blog.models</span> <span class="kn">import</span> <span class="n">Blog</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Blog</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'Beatles Blog'</span><span class="p">,</span> <span class="n">tagline</span><span class="o">=</span><span class="s">'All the latest Beatles news.'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>This performs an <strong>INSERT</strong> SQL statement behind the scenes. Django doesn’t hit the database until you explicitly call  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a> .</p>
+</blockquote>
+
+<p>이는 insert SQL을 수행한다. save를 호출하기 전까지 데이터베이스와 통신하지 않는다.</p>
+
+<h4 id="overriding-predefined-model-methods">Overriding predefined model methods</h4>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#overriding-predefined-model-methods">Models | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>There’s another set of  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#model-instance-methods">model methods</a>  that encapsulate a bunch of database behavior that you’ll want to customize. In particular you’ll often want to change the way  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a>  and  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.delete">delete()</a>  work.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Blog</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">tagline</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">do_something</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># Call the "real" save() method.
+</span>        <span class="n">do_something_else</span><span class="p">()</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>It’s important to remember to call the superclass method – that’s that <strong>super().save(*args, **kwargs)</strong> business – to ensure that the object still gets saved into the database. If you forget to call the superclass method, the default behavior won’t happen and the database won’t get touched.</p>
+</blockquote>
+
+<p>super().save()를 호출하지 않으면 원래 save()가 제대로 작동하지 않는다. 꼭 하길.</p>
+
+<h4 id="overridden-model-methods-are-not-called-on-bulk-operations">Overridden model methods are not called on bulk operations</h4>
+<blockquote>
+  <p>Note that the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.delete">delete()</a>  method for an object is not necessarily called when  <a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#topics-db-queries-delete">deleting objects in bulk using a QuerySet</a>  or as a result of a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey.on_delete">cascading delete</a> . To ensure customized delete logic gets executed, you can use  <a href="https://docs.djangoproject.com/en/2.2/ref/signals/#django.db.models.signals.pre_delete">pre_delete</a>  and/or  <a href="https://docs.djangoproject.com/en/2.2/ref/signals/#django.db.models.signals.post_delete">post_delete</a>  signals.
+Unfortunately, there isn’t a workaround when  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.bulk_create">creating</a>  or  <a href="https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.update">updating</a>  objects in bulk, since none of  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a> ,  <a href="https://docs.djangoproject.com/en/2.2/ref/signals/#django.db.models.signals.pre_save">pre_save</a> , and  <a href="https://docs.djangoproject.com/en/2.2/ref/signals/#django.db.models.signals.post_save">post_save</a>  are called.</p>
+</blockquote>
+
+<p>하지만 대량의 작업에서는 재정의된 함수가 호출되지 않는다. 가능하면 커스텀하지 말아야겠다.</p>
+
+<h3 id="saving-changes-to-objects">Saving changes to objects</h3>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#saving-changes-to-objects">Making queries | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>To save changes to an object that’s already in the database, use  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a> .
+Given a <strong>Blog</strong> instance <strong>b5</strong> that has already been saved to the database, this example changes its name and updates its record in the database:</p>
+</blockquote>
+
+<p>디비에 있는 객체를 바꿀 때 save()사용.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">b5</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">'New name'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b5</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>This performs an <strong>UPDATE</strong> SQL statement behind the scenes. Django doesn’t hit the database until you explicitly call  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model.save">save()</a> .
+update역할을 한다.</p>
+</blockquote>
+
+<h3 id="saving-foreignkey-and-manytomanyfield-fields">Saving ForeignKey and ManyToManyField fields</h3>
+<p><a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#saving-foreignkey-and-manytomanyfield-fields">Making queries | Django documentation | Django</a></p>
+
+<h4 id="foreign-key">Foreign Key</h4>
+<blockquote>
+  <p>Updating a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">ForeignKey</a>  field works exactly the same way as saving a normal field – simply assign an object of the right type to the field in question. This example updates the <strong>blog</strong> attribute of an <strong>Entry</strong> instance <strong>entry</strong>, assuming appropriate instances of <strong>Entry</strong> and <strong>Blog</strong> are already saved to the database (so we can retrieve them below):</p>
+</blockquote>
+
+<p>FK update도 일반적인 update와 동일하다. 다음은 Entry 인스턴스의 blog 속성을 업데이트하는 예이다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">blog.models</span> <span class="kn">import</span> <span class="n">Blog</span><span class="p">,</span> <span class="n">Entry</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">cheese_blog</span> <span class="o">=</span> <span class="n">Blog</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Cheddar Talk"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="n">blog</span> <span class="o">=</span> <span class="n">cheese_blog</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="manytomany">ManyToMany</h4>
+<p>Updating a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ManyToManyField">ManyToManyField</a>  works a little differently – use the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/relations/#django.db.models.fields.related.RelatedManager.add">add()</a>  method on the field to add a record to the relation. This example adds the <strong>Author</strong> instance <strong>joe</strong> to the <strong>entry</strong> object:</p>
+
+<p>M2M는 조금 다르다. add()를 사용한다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">blog.models</span> <span class="kn">import</span> <span class="n">Author</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">joe</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Joe"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">joe</span><span class="p">)</span>
+</code></pre></div></div>
+<p>자세한건 여기서 : <a href="https://docs.djangoproject.com/en/2.2/ref/models/relations/#related-objects-reference">Related objects reference | Django documentation | Django</a></p>
+
+<blockquote>
+  <p>To add multiple records to a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ManyToManyField">ManyToManyField</a>  in one go, include multiple arguments in the call to  <a href="https://docs.djangoproject.com/en/2.2/ref/models/relations/#django.db.models.fields.related.RelatedManager.add">add()</a> , like this:</p>
+</blockquote>
+
+<p>M2M필드에서 여러 인스턴스를 한번에 저장하려면 다음과같이</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">john</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"John"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">paul</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Paul"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">george</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"George"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">ringo</span> <span class="o">=</span> <span class="n">Author</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Ringo"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">entry</span><span class="o">.</span><span class="n">authors</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">john</span><span class="p">,</span> <span class="n">paul</span><span class="p">,</span> <span class="n">george</span><span class="p">,</span> <span class="n">ringo</span><span class="p">)</span>
+</code></pre></div></div>
+:ET

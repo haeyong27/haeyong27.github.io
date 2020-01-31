@@ -1,0 +1,176 @@
+I"F<ul>
+  <li><a href="#django-model">Django Model</a></li>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#relationships">Relationships</a>
+    <ul>
+      <li><a href="#many-to-one-relationships">Many-to-one relationships</a></li>
+      <li><a href="#many-to-many-relationships">Many-to-many relationships</a></li>
+      <li><a href="#one-to-one-relationships">One-to-one relationships</a></li>
+    </ul>
+  </li>
+  <li><a href="#meta-options">Meta options</a></li>
+  <li><a href="#model-methods">Model methods</a></li>
+  <li><a href="#model-inheritance">Model inheritance</a>
+    <ul>
+      <li><a href="#abstract-base-classes">Abstract base classes</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="django-model">Django Model</h1>
+<p>참고 : <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/">Django Model Documentation</a></p>
+
+<h1 id="overview">Overview</h1>
+<blockquote>
+  <p>A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. Generally, each model maps to a single database table.</p>
+</blockquote>
+
+<p>모델은 데이터에 대한 정보 소스 입니다. 필드와 데이터의 동작이 포함되어 있습니다. 일반적으로 각 모델은 하나의 데이터베이스 테이블에 매칭됩니다.</p>
+
+<ul>
+  <li>Each model is a Python class that subclasses  <a href="https://docs.djangoproject.com/en/2.2/ref/models/instances/#django.db.models.Model">django.db.models.Model</a> .</li>
+  <li>Each attribute of the model represents a database field.</li>
+  <li>With all of this, Django gives you an automatically-generated database-access API; see  <a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/">Making queries</a> .</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>The name of the table, <strong>myapp_person</strong>, is automatically derived from some model metadata but can be overridden. See  <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#table-names">Table names</a>  for more details.</li>
+  <li>An <strong>id</strong> field is added automatically, but this behavior can be overridden. See  <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#automatic-primary-key-fields">Automatic primary key fields</a> .</li>
+  <li>The <strong>CREATE TABLE</strong> SQL in this example is formatted using PostgreSQL syntax, but it’s worth noting Django uses SQL tailored to the database backend specified in your  <a href="https://docs.djangoproject.com/en/2.2/topics/settings/">settings file</a> .</li>
+</ul>
+
+<p>앱 이름이 myapp, 모델 이름이 person이라면 데이터 베이스에 저장되는 테이블에 이름은 mysqpp_person이 됩니다. id 필드는 자동으로 추가되며 오버라이드 할 수 있습니다.</p>
+
+<h1 id="relationships">Relationships</h1>
+<h2 id="many-to-one-relationships">Many-to-one relationships</h2>
+<blockquote>
+  <p>To define a many-to-one relationship, use  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">django.db.models.ForeignKey</a> . You use it just like any other  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.Field">Field</a>  type: by including it as a class attribute of your model.
+ <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">ForeignKey</a>  requires a positional argument: the class to which the model is related.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Manufacturer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># ...
+</span>    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Car</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">manufacturer</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Manufacturer</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>
+    <span class="c1"># ...
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">ForeignKey</a>  fields accept a number of extra arguments which are explained in  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#foreign-key-arguments">the model field reference</a> . These options help define how the relationship should work; all are optional.</p>
+</blockquote>
+
+<h2 id="many-to-many-relationships">Many-to-many relationships</h2>
+<p>For example, if a <strong>Pizza</strong> has multiple <strong>Topping</strong> objects – that is, a <strong>Topping</strong> can be on multiple pizzas and each <strong>Pizza</strong> has multiple toppings – here’s how you’d represent that:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Topping</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># ...
+</span>    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># ...
+</span>    <span class="n">toppings</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="one-to-one-relationships">One-to-one relationships</h2>
+<blockquote>
+  <p>This is most useful on the primary key of an object when that object “extends” another object in some way.
+For example, if you were building a database of “places”, you would build pretty standard stuff such as address, phone number, etc. in the database. Then, if you wanted to build a database of restaurants on top of the places, instead of repeating yourself and replicating those fields in the <strong>Restaurant</strong> model, you could make <strong>Restaurant</strong> have a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.OneToOneField">OneToOneField</a>  to <strong>Place</strong> (because a restaurant “is a” place; in fact, to handle this you’d typically use  <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#model-inheritance">inheritance</a> , which involves an implicit one-to-one relation).
+As with  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey">ForeignKey</a> , a  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#recursive-relationships">recursive relationship</a>  can be defined and  <a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#lazy-relationships">references to as-yet undefined models</a>  can be made.</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Place</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">address</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"</span><span class="si">%</span><span class="s">s the place"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<span class="k">class</span> <span class="nc">Restaurant</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">place</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">OneToOneField</span><span class="p">(</span>
+        <span class="n">Place</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">serves_hot_dogs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">serves_pizza</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">"</span><span class="si">%</span><span class="s">s the restaurant"</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">place</span><span class="o">.</span><span class="n">name</span>
+</code></pre></div></div>
+<p>place라는 데이터 베이스를 만들 때 주소나 전화번호 같은것으로 특정지을 수 있지만, Restaurant과 같은 모델을 하나 더 만들어 place를 표현할 수 있다.</p>
+
+<h1 id="meta-options">Meta options</h1>
+<blockquote>
+  <p>Give your model metadata by using an inner class Meta, like so:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">Ox</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">horn_length</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">"horn_length"</span><span class="p">]</span>
+        <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="s">"oxen"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Model metadata is “anything that’s not a field”, such as ordering options ( <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#django.db.models.Options.ordering">ordering</a> ), database table name ( <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#django.db.models.Options.db_table">db_table</a> ), or human-readable singular and plural names ( <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#django.db.models.Options.verbose_name">verbose_name</a>  and  <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/#django.db.models.Options.verbose_name_plural">verbose_name_plural</a> ). None are required, and adding <strong>class Meta</strong> to a model is completely optional.
+A complete list of all possible <strong>Meta</strong> options can be found in the  <a href="https://docs.djangoproject.com/en/2.2/ref/models/options/">model option reference</a> .</p>
+</blockquote>
+
+<p>메타데이터 모델은 “필드가 아닌 모든”것입니다.  정렬 순서라든가, 데이터베이스 테이블 이름, 사람이 읽기 편한 이름 등등.</p>
+
+<h1 id="model-methods">Model methods</h1>
+<p>참고 : <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#model-methods">Models | Django documentation | Django</a></p>
+
+<blockquote>
+  <p><strong>objects</strong>
+The most important attribute of a model is the  <a href="https://docs.djangoproject.com/en/2.2/topics/db/managers/#django.db.models.Manager">Manager</a> . It’s the interface through which database query operations are provided to Django models and is used to  <a href="https://docs.djangoproject.com/en/2.2/topics/db/queries/#retrieving-objects">retrieve the instances</a>  from the database. If no custom <strong>Manager</strong> is defined, the default name is  <a href="https://docs.djangoproject.com/en/2.2/ref/models/class/#django.db.models.Model.objects">objects</a> . Managers are only accessible via model classes, not the model instances.</p>
+</blockquote>
+
+<h1 id="model-inheritance">Model inheritance</h1>
+<h2 id="abstract-base-classes">Abstract base classes</h2>
+<blockquote>
+  <p>Abstract base classes are useful when you want to put some common information into a number of other models. You write your base class and put <strong>abstract=True</strong> in the  <a href="https://docs.djangoproject.com/en/2.2/topics/db/models/#meta-options">Meta</a>  class. This model will then not be used to create any database table. Instead, when it is used as a base class for other models, its fields will be added to those of the child class.
+An example:</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+
+<span class="k">class</span> <span class="nc">CommonInfo</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="bp">True</span>		
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">Student</span><span class="p">(</span><span class="n">CommonInfo</span><span class="p">):</span>
+    <span class="n">home_group</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>The <strong>Student</strong> model will have three fields: <strong>name</strong>, <strong>age</strong> and <strong>home_group</strong>. The <strong>CommonInfo</strong> model cannot be used as a normal Django model, since it is an abstract base class.</p>
+</blockquote>
+
+<p>Student 모델은 3개의 필드를 가지게 됩니다. name, age, home_group.
+CommonInfo 모델은 일반적인 장고 모델처럼 사용될 수 없습니다. 추상화 기반의 클래스 이기 때문입니다.</p>
+
+<hr />
+<p>19 Oct 2019 12:08 AM</p>
+:ET

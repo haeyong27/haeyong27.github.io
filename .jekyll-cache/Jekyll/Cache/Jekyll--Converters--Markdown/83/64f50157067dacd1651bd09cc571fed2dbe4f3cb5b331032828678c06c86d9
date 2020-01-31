@@ -1,0 +1,58 @@
+I"G	<iframe width="560" height="315" src="https://www.youtube.com/embed/R1UWYQYTPKo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>0:55 aws에서 제공하는 서비스를 사용하기 위해서 리소스를 생성하면 어디에 위치시킬지 결정하는것이 vpc이다.  제공하는 서비스에 맞게끔 네트웍에 연결해야 한다. 정확하게 연결하지 않으면 고객에게 원하는 서비스를 제대로 제공하기 힘들다.</p>
+
+<p>1:57 ec2를 예시로 소개</p>
+
+<p>3:01 나만의 가상 데이터 센터를 구축하는것</p>
+
+<p>4:23 private ip address 외부에서 접속할 수 있는 public address 가 아니라</p>
+
+<p>4:48 커다란 네트웍을 만들고 난 뒤 서브넷이라는 작은단위로 공간들을 분리해서 가상머신을 위치하여  사용한다.</p>
+
+<h3 id="본-강연에서-다룰-내용">본 강연에서 다룰 내용</h3>
+<p>5:35 시작</p>
+
+<p>6:43 단계별 구분 (ip 주소 범위 선택, 가용 영역(az)별 서브넷 설정, 인터넷으로 향하는 경로(route)만들기, vpc로/부터 의 트래픽 설정)
+데이터 센터를 만들기 위해서는 내부적으로 사용할 수 있는 private ip address를 설정해야한다.</p>
+
+<p>7:36 ip주소를 선택하는 단계 
+흔히 ip address를 표현하는 방식을 CIDR(사이더) range example</p>
+
+<p>10:30 RFC 1918</p>
+
+<p>11:24 규약을 지키지 않은</p>
+
+<p>12:17 서브넷</p>
+
+<p>12:35 aws는 리젼내에 복수개의 가용 영역, 즉 availability zone을 운영을 하면서 app의 가용성을 극대화 할 수 있도록 지원하고 있다. ap-northeast-2a,c</p>
+
+<p>14:00 vpc 서브넷 권고사</p>
+
+<p>15:06 인터넷 경로</p>
+
+<p>15:55 management console</p>
+
+<p>16:56 internet gateway 외부 세상으로 나가는 문 (igw)
+그리고 특정 서브넷으로 트레픽을 보내고자 할 때 경로를 만들어주게 끔 routing table을 만들어준</p>
+
+<p>18:00 0.0.0.0/0 anywhere VPC로 향하지 않는 모든것: 인터넷으로 보내</p>
+
+<p>19:09 vpc 네트워크 보안</p>
+
+<p>19:57 방화벽</p>
+
+<p>21:19 security group : 어플리 케이션 구조</p>
+
+<p>24:45 체크포인트</p>
+
+<p>25:14 statefull</p>
+
+<p>25:58 stateless</p>
+
+<p>28:04 VPC의 연결 옵션</p>
+
+<p>39:30 VPC및 다른 서비스</p>
+
+<p>40:55 S3</p>
+:ET

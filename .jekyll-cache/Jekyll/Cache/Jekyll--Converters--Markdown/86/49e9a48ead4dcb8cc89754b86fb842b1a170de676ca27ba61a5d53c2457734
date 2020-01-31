@@ -1,0 +1,20 @@
+I"�<h1 id="css-flexbox-vs-grid">CSS flexbox vs grid</h1>
+
+<h2 id="compare">compare</h2>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=RSIclWvNTdQ&amp;t=140s">CSS Grid vs Flexbox - YouTube</a></li>
+</ul>
+
+<h2 id="flexbox">flexbox</h2>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=JJSoEo8JSnc">Flexbox CSS In 20 Minutes - YouTube</a></li>
+</ul>
+
+<h2 id="grid">grid</h2>
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=jV8B24rSN5o">CSS Grid Layout Crash Course - YouTube</a></li>
+  <li><a href="https://getbootstrap.com/docs/4.0/layout/grid/">Grid system · Bootstrap</a></li>
+</ul>
+
+<p>모바일에 최적화하기 위해서는 flex가 더 적합하다.</p>
+:ET

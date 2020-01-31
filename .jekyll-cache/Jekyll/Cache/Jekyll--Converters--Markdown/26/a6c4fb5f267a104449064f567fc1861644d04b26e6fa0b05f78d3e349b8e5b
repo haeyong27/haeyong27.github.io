@@ -1,0 +1,49 @@
+I"�<ul>
+  <li><a href="#oauth2-allauth-rest-auth">OAuth2 allauth, rest-auth</a>
+    <ul>
+      <li><a href="#rest-auth">rest-auth</a></li>
+      <li><a href="#all-auth">all auth</a></li>
+      <li><a href="#jwt-support">JWT Support</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="oauth2-allauth-rest-auth">OAuth2 allauth, rest-auth</h1>
+
+<p><a href="https://oauth.net/2/">OAuth 2.0 — OAuth</a>
+<a href="https://www.toptal.com/django/integrate-oauth-2-into-django-drf-back-end">Integrate OAuth 2 Into Your Django/DRF Back-end | Toptal</a></p>
+
+<h2 id="rest-auth">rest-auth</h2>
+<p><a href="https://django-rest-auth.readthedocs.io/en/latest/introduction.html">Introduction — django-rest-auth 0.9.5 documentation</a></p>
+
+<blockquote>
+  <p>django-rest-auth, a set of REST API endpoints to handle User Registration and Authentication tasks. By having these API endpoints, your client apps such as AngularJS, iOS, Android, and others can communicate to your Django backend site independently via REST APIs for User Management.</p>
+</blockquote>
+
+<ul>
+  <li>User Registration with activation</li>
+  <li>Login/Logout</li>
+</ul>
+
+<p>DRF 유저 등록, 로그인, 로그아웃 기능 제공</p>
+
+<h2 id="all-auth">all auth</h2>
+<p><a href="https://django-allauth.readthedocs.io/en/latest/overview.html#">Overview — django-allauth 0.32.0 documentation</a></p>
+<ul>
+  <li>Signup of both local and social accounts</li>
+  <li>Connecting more than one social account to a local account</li>
+</ul>
+
+<p>소셜(구글, 페이스북, 카카오 등) 인증기반 유저관리 기능 제공</p>
+
+<h2 id="jwt-support">JWT Support</h2>
+<p><a href="https://django-rest-auth.readthedocs.io/en/latest/installation.html#jwt-support-optional">django-rest-auth</a>에서는 기본적으로 Token-based authentication를 사용합니다. JWT authentication를 사용하고 싶다면 <a href="http://jpadilla.github.io/django-rest-framework-jwt/#overview">djangorestframework-jwt</a>를 사용합니다.</p>
+<blockquote>
+  <p>Unlike some more typical uses of JWTs, this module only generates authentication tokens that will verify the user who is requesting one of your DRF protected API resources. The actual request parameters themselves are not included in the JWT claims which means they are not signed and may be tampered with. You should only expose your API endpoints over SSL/TLS to protect against content tampering and certain kinds of replay attacks.</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-H</span> <span class="s2">"Authorization: JWT &lt;your_token&gt;"</span> http://localhost:8000/protected-url/
+</code></pre></div></div>
+
+<p><a href="https://www.django-rest-framework.org/api-guide/authentication/#json-web-token-authentication">DRF 공식문서</a>에서는 <a href="https://github.com/davesque/django-rest-framework-simplejwt">djangorestframework-simplejwt</a>를 사용합니다.</p>
+:ET
